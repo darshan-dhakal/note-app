@@ -11,13 +11,8 @@ export const authMiddleware = asyncHandler(async (req, res, next) => {
     try {
       token = req.headers.authorization.split(' ')[1]
       const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
-      console.log('Decoded token:', decoded)
-
       req.user = await UserRepo.findById(decoded.id)
-      console.log('User fetched in auth middleware:', req.user)
-
       next()
-      console.log('User authenticated:', req.user)
     } catch (error) {
       res.status(401).json({ message: 'Not authorized, token failed' })
     }

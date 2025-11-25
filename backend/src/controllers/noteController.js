@@ -1,4 +1,4 @@
-import prisma from '../db.js'
+import prisma from '../config/prisma.js'
 
 export const getNotes = async (req, res) => {
   try {

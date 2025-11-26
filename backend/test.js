@@ -1,16 +1,11 @@
-import pkg from '@prisma/client'
-const { PrismaClient } = pkg
+import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
 async function main () {
-  const notes = await prisma.note.findMany()
-  console.log(notes)
+  const users = await prisma.user.findMany()
+  console.log(users)
+  await prisma.$disconnect()
 }
 
 main()
-  .then(() => prisma.$disconnect())
-  .catch(e => {
-    console.error(e)
-    prisma.$disconnect()
-  })

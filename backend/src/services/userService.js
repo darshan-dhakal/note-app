@@ -21,7 +21,8 @@ export const UserService = {
     if (!user) {
       throw new error('User not found')
     }
-    return user
+    const { password, ...userWithoutPassword } = user
+    return userWithoutPassword
   },
   updateUser: async (id, updateData) => {
     await UserService.getUserById(id)
@@ -43,7 +44,7 @@ export const UserService = {
     const { password: _, ...userWithoutPassword } = user
     const accessToken = generateToken(user.id)
     return {
-      message: 'user created successfully',
+      message: 'user logged in successfully',
       data: { user: userWithoutPassword, accessToken }
     }
   }

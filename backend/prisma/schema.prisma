@@ -4,7 +4,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-    // url      = env("DATABASE_URL")  // Make sure DATABASE_URL is in .env
+  // downgrade prisma version if error occurs with prisma migrate and generate and put url in here
+    url      = env("DATABASE_URL")  // Make sure DATABASE_URL is in .env
 
 
   

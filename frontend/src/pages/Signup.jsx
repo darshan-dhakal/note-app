@@ -25,55 +25,88 @@ export default function Signup() {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "auto", marginTop: "80px" }}>
-      <h2>Create Account</h2>
+    <div
+      style={{
+        height: "100vh",
+        width: "100vw",
+        // margin: "auto",
+        // marginTop: "80px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#f9f9f9",
+        padding: "20px",
+        borderRadius: "10px",
+        boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+      }}
+      /*************  ✨ Windsurf Command 🌟  *************/
+    >
+      <div
+        style={{
+          maxWidth: "400px",
+          width: "100%",
+          padding: "20px",
+          borderRadius: "10px",
+          background: "white",
+          boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+        }}
+      >
+        <h2 style={{ textAlign: "center" }}>Create Account</h2>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Your name"
-          value={form.name}
-          onChange={handleChange}
-          required
-          style={{ width: "100%", padding: "10px", marginTop: "10px" }}
-        />
+        <form onSubmit={handleSubmit}>
+          <div style={{ display: "flex" }}>
+            <input
+              type="text"
+              name="name"
+              placeholder="Your name"
+              value={form.name}
+              onChange={handleChange}
+              required
+              style={{ width: "100%", padding: "10px", marginTop: "10px" }}
+            />
+          </div>
+          <div style={{ display: "flex" }}>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email address"
+              value={form.email}
+              onChange={handleChange}
+              required
+              style={{ width: "100%", padding: "10px", marginTop: "10px" }}
+            />
+          </div>
+          <div style={{ display: "flex" }}>
+            <input
+              type="password"
+              name="password"
+              placeholder="Create password"
+              value={form.password}
+              onChange={handleChange}
+              required
+              style={{ width: "100%", padding: "10px", marginTop: "10px" }}
+            />
+          </div>
+          <div style={{ textAlign: "center", marginTop: "20px" }}>
+            Already have an account? <a href="/login">Login</a>
+          </div>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email address"
-          value={form.email}
-          onChange={handleChange}
-          required
-          style={{ width: "100%", padding: "10px", marginTop: "10px" }}
-        />
-
-        <input
-          type="password"
-          name="password"
-          placeholder="Create password"
-          value={form.password}
-          onChange={handleChange}
-          required
-          style={{ width: "100%", padding: "10px", marginTop: "10px" }}
-        />
-
-        <button
-          type="submit"
-          style={{
-            width: "100%",
-            padding: "10px",
-            marginTop: "15px",
-            backgroundColor: "black",
-            color: "white",
-          }}
-        >
-          Signup
-        </button>
-      </form>
+          <button
+            type="submit"
+            style={{
+              width: "100%",
+              padding: "10px",
+              marginTop: "15px",
+              backgroundColor: "black",
+              color: "white",
+            }}
+          >
+            Signup
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

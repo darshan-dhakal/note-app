@@ -15,16 +15,13 @@ export default function Login() {
         password,
       });
 
-      // res.data = { message, data: { user, accessToken } }
       const { accessToken, user } = res.data.data;
 
-      // Store token in localStorage
       localStorage.setItem("token", accessToken);
 
       alert("Login successful!");
       console.log("Logged in as:", user);
 
-      // Redirect to dashboard or home
       window.location.href = "/dashboard";
     } catch (err) {
       setError(err.response?.data?.error || "Login failed");
@@ -32,44 +29,92 @@ export default function Login() {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "auto", marginTop: "100px" }}>
-      <h2>Login</h2>
+    <div
+      style={{
+        height: "100vh",
+        width: "100vw",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#f9f9f9",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "400px",
+          width: "100%",
+          padding: "20px",
+          borderRadius: "10px",
+          background: "white",
+          boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+        }}
+      >
+        <h2 style={{ textAlign: "center" }}>Login</h2>
 
-      <form onSubmit={handleSubmit}>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-
-        <input
-          type="email"
-          placeholder="Enter email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          style={{ width: "100%", padding: "10px", marginTop: "10px" }}
-        />
-
-        <input
-          type="password"
-          placeholder="Enter password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          style={{ width: "100%", padding: "10px", marginTop: "10px" }}
-        />
-
-        <button
-          type="submit"
-          style={{
-            width: "100%",
-            padding: "10px",
-            marginTop: "15px",
-            backgroundColor: "black",
-            color: "white",
-          }}
-        >
-          Login
-        </button>
-      </form>
+        <form onSubmit={handleSubmit}>
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          <div style={{ display: "flex" }}>
+            <input
+              type="email"
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              style={{ width: "100%", padding: "10px", marginTop: "10px" }}
+            />
+          </div>
+          <div style={{ display: "flex" }}>
+            <input
+              type="password"
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              style={{
+                width: "100%",
+                padding: "10px",
+                flex: "1",
+                marginTop: "10px",
+              }}
+            />
+          </div>
+          <p style={{ textAlign: "center" }}>
+            Don't have an account? <a href="/signup">Sign up</a>
+          </p>
+          <p style={{ textAlign: "center" }}>
+            <a href="/forgot-password">Forgot password?</a>
+          </p>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: "20px",
+            }}
+          >
+            <a
+              href="/change-password"
+              style={{ textDecoration: "none", color: "#646cff" }}
+            ></a>
+          </div>
+          <button
+            type="submit"
+            style={{
+              width: "100%",
+              padding: "10px",
+              marginTop: "15px",
+              backgroundColor: "black",
+              color: "white",
+              borderRadius: "5px",
+              border: "none",
+            }}
+          >
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
+
 export { Login };

@@ -2,6 +2,7 @@ import { UserRepo } from '../repositories/userRepository.js'
 import { hashPassword } from '../../utils/bcrypt.js'
 import { comparePassword } from '../../utils/bcrypt.js'
 import { generateToken } from '../../utils/tokenGenerate.js'
+
 export const UserService = {
   createUser: async userData => {
     const existingUser = await UserRepo.findByEmail(userData.email)
@@ -9,10 +10,18 @@ export const UserService = {
     if (existingUser) {
       throw new Error('User already exists!')
     }
+    const userAge = parseInt(userData.age, 10)
+    if (isNaN(userAge) || userAge < 0) {
+      throw new Error('Invalid age provided')
+    }
+    const numericAge = Number(userData.age)
     const user = UserRepo.createUser({
       ...userData,
+      age: userAge,
+      gender: numericAge > 18 ? userData.gender : 'null',
       password: encryptedPassword
     })
+
     const { password, ...userWithoutPassword } = await user
     return userWithoutPassword
   },
@@ -47,5 +56,12 @@ export const UserService = {
       message: 'user logged in successfully',
       data: { user: userWithoutPassword, accessToken }
     }
+  },
+  getUserAge: async id => {
+    const ageData = await UserRepo.getAge(id)
+    if (!ageData) {
+      throw new Error('User not found')
+    }
+    return ageData
   }
 }

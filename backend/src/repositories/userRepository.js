@@ -24,5 +24,11 @@ export const UserRepo = {
     return prisma.user.delete({
       where: { id: Number(id) }
     })
+  },
+  getAge: id => {
+    return prisma.user.findUnique({
+      where: { id: Number(id) },
+      select: { age: true }
+    })
   }
 }

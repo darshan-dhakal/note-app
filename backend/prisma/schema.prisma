@@ -4,11 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // downgrade prisma version if error occurs with prisma migrate and generate and put url in here
-    url      = env("DATABASE_URL")  // Make sure DATABASE_URL is in .env
-
-
-  
+  url      = env("DATABASE_URL")
 }
 
 model Note {
@@ -23,4 +19,12 @@ model User {
   email    String @unique
   password String
   name     String
+  age      Int
+  gender  Gender?
+}
+
+enum Gender{
+  MALE
+  FEMALE
+  OTHER
 }

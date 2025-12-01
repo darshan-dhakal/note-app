@@ -27,6 +27,15 @@ export const UserController = {
       res.status(404).json({ error: error.message })
     }
   },
+  // getUserByAge: async (req, res) => {
+  //   try {
+  //     const ageData = await UserService.getUserAge(req.params.id)
+  //     res.status(200).json(ageData)
+  //     console.log(ageData)
+  //   } catch (error) {
+  //     res.status(404).json({ error: error.message })
+  //   }
+  // },
   forgotPassword: async (req, res) => {
     try {
       const { email } = req.body

@@ -14,11 +14,13 @@ export const UserService = {
     if (isNaN(userAge) || userAge < 0) {
       throw new Error('Invalid age provided')
     }
-    const numericAge = Number(userData.age)
+    // const numericAge = Number(userData.age)
     const user = UserRepo.createUser({
       ...userData,
       age: userAge,
-      gender: numericAge > 18 ? userData.gender : 'null',
+      gender: ['MALE', 'FEMALE', 'OTHER'].includes(gender) ? gender : null,
+
+      // gender: numericAge > 18 ? userData.gender : 'null',
       password: encryptedPassword
     })
 

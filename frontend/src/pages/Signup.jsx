@@ -16,46 +16,21 @@ export default function Signup() {
   const watchAge = watch("age");
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post("http://localhost:3000/api/users/", data);
+      console.log(data);
+      const { confirmPassword, ...payload } = data;
+      if (!payload.gender) {
+        delete payload.gender;
+      }
+      const res = await axios.post("http://localhost:3000/api/users/", payload);
 
       alert("Account created successfully!");
       console.log("User:", res.data);
 
       window.location.href = "/login";
     } catch (err) {
-      setError(err.response?.data?.error || "Signup failed");
+      alert(err.response?.data?.error || "Signup failed");
     }
   };
-
-  // const [error, setError] = useState("");
-
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target; // <-- important
-
-  //   setForm((prev) => {
-  //     if (name === "age") {
-  //       const intAge = parseInt(value) || 0;
-  //       // Clear gender if age <= 18
-  //       return { ...prev, age: intAge, gender: intAge > 18 ? prev.gender : "" };
-  //     }
-  //     return { ...prev, [name]: value };
-  //   });
-  // };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     const res = await axios.post("http://localhost:3000/api/users/", form);
-
-  //     alert("Account created successfully!");
-  //     console.log("User:", res.data);
-
-  //     window.location.href = "/login";
-  //   } catch (err) {
-  //     setError(err.response?.data?.error || "Signup failed");
-  //   }
-  // };
 
   return (
     <div

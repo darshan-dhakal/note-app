@@ -10,9 +10,7 @@ export const userSchema = z
       .string()
       .min(1, 'Age is required')
       .refine(val => !isNaN(Number(val), 'Age must be a number')),
-    gender: z.enum(['MALE', 'FEMALE', 'OTHER', ''], {
-      required_error: 'Gender is required'
-    })
+    gender: z.enum(['MALE', 'FEMALE', 'OTHER', '']).optional()
   })
 
   .refine(data => data.password === data.confirmPassword, {

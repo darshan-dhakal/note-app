@@ -5,45 +5,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { userSchema } from "../schemas/userSchema";
 
 export default function Signup() {
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-    name: "",
-    age: 0,
-    gender: "",
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(userSchema),
   });
-  const [error, setError] = useState("");
-
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target
-  //    setForm((prev) => {
-  //       if (name === "age") {
-  //       const intAge = parseInt(value)||0;
-  //       return { ...prev, age: intAge , gender: intAge>18 ? prev.gender : ""};
-  //       }
-  //       return { ...prev, [name]: value };
-  //     })
-  //     // [name]: value
-  //   }
-  // }
-  const handleChange = (e) => {
-    const { name, value } = e.target; // <-- important
-
-    setForm((prev) => {
-      if (name === "age") {
-        const intAge = parseInt(value) || 0;
-        // Clear gender if age <= 18
-        return { ...prev, age: intAge, gender: intAge > 18 ? prev.gender : "" };
-      }
-      return { ...prev, [name]: value };
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const watchAge = watch("age");
+  const onSubmit = async (data) => {
     try {
-      const res = await axios.post("http://localhost:3000/api/users/", form);
+      const res = await axios.post("http://localhost:3000/api/users/", data);
 
       alert("Account created successfully!");
       console.log("User:", res.data);
@@ -53,6 +26,36 @@ export default function Signup() {
       setError(err.response?.data?.error || "Signup failed");
     }
   };
+
+  // const [error, setError] = useState("");
+
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target; // <-- important
+
+  //   setForm((prev) => {
+  //     if (name === "age") {
+  //       const intAge = parseInt(value) || 0;
+  //       // Clear gender if age <= 18
+  //       return { ...prev, age: intAge, gender: intAge > 18 ? prev.gender : "" };
+  //     }
+  //     return { ...prev, [name]: value };
+  //   });
+  // };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     const res = await axios.post("http://localhost:3000/api/users/", form);
+
+  //     alert("Account created successfully!");
+  //     console.log("User:", res.data);
+
+  //     window.location.href = "/login";
+  //   } catch (err) {
+  //     setError(err.response?.data?.error || "Signup failed");
+  //   }
+  // };
 
   return (
     <div
@@ -82,72 +85,94 @@ export default function Signup() {
       >
         <h2 style={{ textAlign: "center" }}>Create Account</h2>
 
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {/* {errors && <p style={{ color: "red" }}>{errors}</p>} */}
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div style={{ display: "flex" }}>
             <input
               type="text"
-              name="name"
+              // name="name"
               placeholder="Your name"
-              value={form.name}
-              onChange={handleChange}
-              required
+              {...register("name")}
+              // value={form.name}
               style={{ width: "100%", padding: "10px", marginTop: "10px" }}
             />
           </div>
+          <p style={{ color: "red" }}>{errors.name?.message}</p>
           <div style={{ display: "flex" }}>
             <input
               type="email"
-              name="email"
+              // name="email"
               placeholder="Email address"
-              value={form.email}
-              onChange={handleChange}
-              required
+              // value={form.email}
+              // onChange={handleChange}
+              // required
+              {...register("email")}
               style={{ width: "100%", padding: "10px", marginTop: "10px" }}
             />
           </div>
+          <p style={{ color: "red" }}>{errors.email?.message}</p>
           <div style={{ display: "flex" }}>
             <input
               type="password"
               name="password"
               placeholder="Create password"
-              value={form.password}
-              onChange={handleChange}
-              required
+              // value={form.password}
+              // onChange={handleChange}
+              // required
+              {...register("password")}
               style={{ width: "100%", padding: "10px", marginTop: "10px" }}
             />
           </div>
+          <p style={{ color: "red" }}>{errors.password?.message}</p>
+          <div style={{ display: "flex" }}>
+            <input
+              type="password"
+              // name="password"
+              placeholder="Confirm password"
+              // value={form.password}
+              // onChange={handleChange}
+              // required
+              {...register("confirmPassword")}
+              style={{ width: "100%", padding: "10px", marginTop: "10px" }}
+            />
+          </div>
+          <p style={{ color: "red" }}>{errors.confirmPassword?.message}</p>
           <div>
             <div style={{ marginTop: "10px" }}>Enter you age</div>
             <div style={{ display: "flex" }}>
               <input
-                type="text"
-                name="age"
+                type="number"
+                // name="age"
                 placeholder="Enter you age"
-                value={form.age}
-                onChange={handleChange}
-                required
+                // value={form.age}
+                // onChange={handleChange}
+                // required
+                {...register("age")}
                 style={{ width: "100%", padding: "10px", marginTop: "10px" }}
               />
             </div>
+            <p style={{ color: "red" }}>{errors.age?.message}</p>
           </div>
-          {form.age > 18 && (
+          {Number(watchAge) > 18 && (
             <div>
               <div style={{ marginTop: "10px" }}>Select your gender</div>
               <div style={{ display: "flex" }}>
                 <select
-                  name="gender"
-                  value={form.gender}
-                  onChange={handleChange}
-                  required
+                  // name="gender"
+                  // value={form.gender}
+                  // onChange={handleChange}
+                  // required
+                  {...register("gender")}
                   style={{ width: "100%", padding: "10px", marginTop: "10px" }}
                 >
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
+                  <option value="">Select Gender</option>
+                  <option value="MALE">Male</option>
+                  <option value="FEMALE">Female</option>
+                  <option value="OTHER">Other</option>
                 </select>
               </div>
+              <p style={{ color: "red" }}>{errors.gender?.message}</p>
             </div>
           )}
           <div style={{ textAlign: "center", marginTop: "20px" }}>

@@ -10,11 +10,28 @@ export const userSchema = z
       .string()
       .min(1, 'Age is required')
       .refine(val => !isNaN(Number(val), 'Age must be a number')),
-    gender: z.enum(['MALE', 'FEMALE', 'OTHER'], {
+    gender: z.enum(['MALE', 'FEMALE', 'OTHER', ''], {
       required_error: 'Gender is required'
     })
   })
+
   .refine(data => data.password === data.confirmPassword, {
     message: 'Passwords do not match',
     path: ['confirmPassword']
   })
+  // .refine(data => Number(data.age)
+  // if (Number(data.age) < 18) {
+  .refine(
+    data => {
+      const age = Number(data.age)
+      // If age > 18 => gender cannot be empty
+      if (age > 18 && data.gender === '') {
+        return false
+      }
+      return true
+    },
+    {
+      path: ['gender'],
+      message: 'Gender is required for age above 18'
+    }
+  )

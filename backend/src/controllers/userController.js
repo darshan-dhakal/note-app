@@ -58,7 +58,7 @@ export const UserController = {
       // Create reset token
       const resetToken = crypto.randomBytes(32).toString('hex')
       const resetTokenExpiry = new Date(Date.now() + 1000 * 60 * 10) // 10 minutes
-      console.log(typeof resetTokenExpiry)
+      // console.log(typeof resetTokenExpiry)
       // console.log(resetTokenExpiry)
 
       // Save token to database
@@ -70,7 +70,7 @@ export const UserController = {
       // await prisma.user.update({
       //   updatedUser
       // })
-      console.log(updatedUser)
+      // console.log(updatedUser)
 
       // Create password reset link
       const resetLink = `http://localhost:5173/reset-password/${resetToken}`
@@ -108,7 +108,7 @@ export const UserController = {
   resetPassword: async (req, res) => {
     try {
       const { token } = req.params
-      const { newPassword } = req.body
+      const { password } = req.body
 
       // Find user by reset token and check expiry
       const user = await prisma.user.findFirst({
@@ -125,7 +125,8 @@ export const UserController = {
       }
 
       // Hash new password
-      const hashedPassword = await hashPassword(newPassword)
+      // console.log(newPassword)
+      const hashedPassword = await hashPassword(password)
 
       // Update user's password and clear reset token
       await prisma.user.update({

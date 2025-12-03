@@ -24,6 +24,8 @@ model User {
 
   resetToken String?
   resetTokenExpiry DateTime?
+
+
 }
 
 enum Gender{

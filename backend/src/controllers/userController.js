@@ -1,4 +1,13 @@
+import { UserRepo } from '../repositories/userRepository.js'
 import { UserService } from '../services/userService.js'
+import crypto from 'crypto'
+import nodemailer from 'nodemailer'
+import prisma from '../config/prisma.js'
+import dotenv from 'dotenv'
+import { hashPassword } from '../../utils/bcrypt.js'
+import { type } from 'os'
+
+dotenv.config()
 
 export const UserController = {
   createUser: async (req, res) => {
@@ -38,33 +47,39 @@ export const UserController = {
   // },
   forgotPassword: async (req, res) => {
     try {
+      // console.log(req.body)
       const { email } = req.body
-
+      const user = await UserService.getUserByEmail(email)
       // Check if user exists
-      const user = await prisma.user.findUnique({ where: { email } })
       if (!user) {
         return res.status(404).json({ error: 'User not found' })
       }
 
       // Create reset token
       const resetToken = crypto.randomBytes(32).toString('hex')
-      const resetTokenExpiry = Date.now() + 1000 * 60 * 10 // 10 minutes
+      const resetTokenExpiry = new Date(Date.now() + 1000 * 60 * 10) // 10 minutes
+      console.log(typeof resetTokenExpiry)
+      // console.log(resetTokenExpiry)
 
       // Save token to database
-      await prisma.user.update({
-        where: { email },
-        data: {
-          resetToken,
-          resetTokenExpiry
-        }
+      const updatedUser = await UserService.updateUser(user.id, {
+        resetToken,
+        resetTokenExpiry
       })
+
+      // await prisma.user.update({
+      //   updatedUser
+      // })
+      console.log(updatedUser)
 
       // Create password reset link
       const resetLink = `http://localhost:5173/reset-password/${resetToken}`
 
       // Setup email sender
       const transporter = nodemailer.createTransport({
-        service: 'gmail',
+        host: process.env.EMAIL_HOST,
+        port: process.env.EMAIL_PORT,
+        secure: process.env.EMAIL_SECURE === 'true',
         auth: {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASS
@@ -85,6 +100,44 @@ export const UserController = {
       })
 
       res.json({ message: 'Reset link sent to email' })
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ error })
+    }
+  },
+  resetPassword: async (req, res) => {
+    try {
+      const { token } = req.params
+      const { newPassword } = req.body
+
+      // Find user by reset token and check expiry
+      const user = await prisma.user.findFirst({
+        where: {
+          resetToken: token,
+          resetTokenExpiry: {
+            gt: new Date(Date.now())
+          }
+        }
+      })
+
+      if (!user) {
+        return res.status(400).json({ error: 'Invalid or expired token' })
+      }
+
+      // Hash new password
+      const hashedPassword = await hashPassword(newPassword)
+
+      // Update user's password and clear reset token
+      await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          password: hashedPassword,
+          resetToken: null,
+          resetTokenExpiry: null
+        }
+      })
+
+      res.json({ message: 'Password has been reset successfully' })
     } catch (error) {
       console.error(error)
       res.status(500).json({ error: 'Something went wrong' })

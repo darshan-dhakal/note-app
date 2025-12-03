@@ -8,5 +8,5 @@ router.post('/', UserController.createUser)
 router.post('/login', UserController.loginUser)
 router.get('/:id', authMiddleware, UserController.getUserById)
 router.post('/forgot-password', UserController.forgotPassword)
-// router.post('/reset-password/:token', UserController.resetPassword)
+router.put('/reset-password/:token', UserController.resetPassword)
 export default router

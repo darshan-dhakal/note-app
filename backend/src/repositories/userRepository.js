@@ -17,7 +17,7 @@ export const UserRepo = {
   updateUser: (id, updateData) => {
     return prisma.user.update({
       where: { id: Number(id) },
-      updateData
+      data: updateData
     })
   },
   deleteUser: id => {

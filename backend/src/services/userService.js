@@ -39,6 +39,10 @@ export const UserService = {
     const { password, ...userWithoutPassword } = user
     return userWithoutPassword
   },
+  getUserByEmail: async email => {
+    const user = await UserRepo.findByEmail(email)
+    return user
+  },
   updateUser: async (id, updateData) => {
     await UserService.getUserById(id)
     return UserRepo.updateUser(id, updateData)
@@ -63,6 +67,14 @@ export const UserService = {
       data: { user: userWithoutPassword, accessToken }
     }
   },
+  // forgotPassword: async email => {
+  //   const user = await UserRepo.findByEmail(email)
+  //   if (!user) {
+  //     throw new Error('User not found')
+  //   }
+  // Further implementation for password reset can be added here
+  // return { message: 'Password reset link sent to your email!' }
+  // },
   getUserAge: async id => {
     const ageData = await UserRepo.getAge(id)
     if (!ageData) {

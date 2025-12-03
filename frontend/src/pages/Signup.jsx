@@ -105,9 +105,6 @@ export default function Signup() {
               type="password"
               // name="password"
               placeholder="Confirm password"
-              // value={form.password}
-              // onChange={handleChange}
-              // required
               {...register("confirmPassword")}
               style={{ width: "100%", padding: "10px", marginTop: "10px" }}
             />

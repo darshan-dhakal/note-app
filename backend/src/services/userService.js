@@ -6,25 +6,29 @@ import { generateToken } from '../../utils/tokenGenerate.js'
 export const UserService = {
   createUser: async userData => {
     const existingUser = await UserRepo.findByEmail(userData.email)
-    const encryptedPassword = await hashPassword(userData.password)
     if (existingUser) {
       throw new Error('User already exists!')
     }
+    const encryptedPassword = await hashPassword(userData.password)
     const userAge = parseInt(userData.age, 10)
     if (isNaN(userAge) || userAge < 0) {
       throw new Error('Invalid age provided')
     }
     // const numericAge = Number(userData.age)
-    const user = UserRepo.createUser({
+    let savingUserData = {
       ...userData,
       age: userAge,
-      gender: ['MALE', 'FEMALE', 'OTHER'].includes(gender) ? gender : null,
-
-      // gender: numericAge > 18 ? userData.gender : 'null',
       password: encryptedPassword
-    })
+    }
+    if (userData.gender) {
+      savingUserData.gender = userData.gender
+    }
+    const savedUser = await UserRepo.createUser(savingUserData)
+    if (!savedUser) {
+      throw new Error('Failed to create user')
+    }
 
-    const { password, ...userWithoutPassword } = await user
+    const { password, ...userWithoutPassword } = savedUser
     return userWithoutPassword
   },
   getUserById: async id => {

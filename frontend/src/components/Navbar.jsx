@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Button,
   Dropdown,
   DropdownDivider,
   DropdownHeader,
@@ -59,6 +60,13 @@ export function Component() {
         <NavbarLink href="#">Pricing</NavbarLink>
         <NavbarLink href="#">Contact</NavbarLink>
       </NavbarCollapse>
+
+      <Button color="dark" href="/signup" outline>
+        Signup
+      </Button>
+      <Button color="light" href="/login">
+        Login
+      </Button>
     </Navbar>
   );
 }

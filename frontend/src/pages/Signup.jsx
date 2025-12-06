@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { userSchema } from "../schemas/userSchema";
 import Layouts from "../components/Layouts";
+import { Label, TextInput } from "flowbite-react";
+import { HiMail } from "react-icons/hi";
 
 export default function Signup() {
   const {
@@ -65,55 +67,58 @@ export default function Signup() {
           {/* {errors && <p style={{ color: "red" }}>{errors}</p>} */}
 
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div style={{ display: "flex" }}>
-              <input
+            <div className="max-w-md">
+              <div className="mb-2 block">
+                <Label>Your Full Name</Label>
+              </div>
+              <TextInput
                 type="text"
-                // name="name"
-                placeholder="Your name"
+                name="name"
+                placeholder="Full Name"
                 {...register("name")}
-                // value={form.name}
-                style={{ width: "100%", padding: "10px", marginTop: "10px" }}
               />
             </div>
             <p style={{ color: "red" }}>{errors.name?.message}</p>
-            <div style={{ display: "flex" }}>
-              <input
+            <div className="max-w-md mt-2">
+              <div className="mb-2 block">
+                <Label>Your email</Label>
+              </div>
+              <TextInput
                 type="email"
+                icon={HiMail}
                 placeholder="Email address"
                 {...register("email")}
-                style={{ width: "100%", padding: "10px", marginTop: "10px" }}
               />
             </div>
             <p style={{ color: "red" }}>{errors.email?.message}</p>
-            <div style={{ display: "flex" }}>
-              <input
-                type="password"
-                name="password"
-                placeholder="Create password"
-                {...register("password")}
-                style={{ width: "100%", padding: "10px", marginTop: "10px" }}
-              />
+            <div className="mt-2 block">
+              <Label>Password</Label>
             </div>
+            <TextInput
+              type="password"
+              name="password"
+              placeholder="Create password"
+              {...register("password")}
+            />
             <p style={{ color: "red" }}>{errors.password?.message}</p>
-            <div style={{ display: "flex" }}>
-              <input
-                type="password"
-                placeholder="Confirm password"
-                {...register("confirmPassword")}
-                style={{ width: "100%", padding: "10px", marginTop: "10px" }}
-              />
+            <div className="mt-2 block">
+              <Label>Confirm Password</Label>
             </div>
+            <TextInput
+              type="password"
+              placeholder="Confirm password"
+              {...register("confirmPassword")}
+            />
             <p style={{ color: "red" }}>{errors.confirmPassword?.message}</p>
             <div>
-              <div style={{ marginTop: "10px" }}>Enter you age</div>
-              <div style={{ display: "flex" }}>
-                <input
-                  type="number"
-                  placeholder="Enter you age"
-                  {...register("age")}
-                  style={{ width: "100%", padding: "10px", marginTop: "10px" }}
-                />
+              <div className="mt-2 block">
+                <Label>Enter Your Age</Label>
               </div>
+              <TextInput
+                type="number"
+                placeholder="Enter you age"
+                {...register("age")}
+              />
               <p style={{ color: "red" }}>{errors.age?.message}</p>
             </div>
             {Number(watchAge) > 18 && (
@@ -140,7 +145,6 @@ export default function Signup() {
             <div style={{ textAlign: "center", marginTop: "20px" }}>
               Already have an account? <a href="/login">Login</a>
             </div>
-
             <button
               type="submit"
               style={{

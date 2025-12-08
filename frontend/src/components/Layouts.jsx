@@ -1,7 +1,8 @@
+import React from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 
-const Layouts = ({ children }) => {
+export function Layouts({ children }) {
   return (
     <>
       <Navbar />
@@ -9,6 +10,6 @@ const Layouts = ({ children }) => {
       <Footer />
     </>
   );
-};
+}
 
 export default Layouts;

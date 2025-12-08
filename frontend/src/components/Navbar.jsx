@@ -11,19 +11,15 @@ import {
   NavbarLink,
   NavbarToggle,
 } from "flowbite-react";
-import { useState } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext.jsx";
 
 import { Home } from "../pages/Home.jsx";
-import { LogoutButton } from "./LogOutButton.jsx";
 
 export function Component() {
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // const token = localStorage.getItem("token");
-  // if (!token) {
-  //   setIsLoggedIn(false);
-  // }
-  // console.log(isLoggedIn);
+  const { isLoggedIn, logout } = useContext(AuthContext);
 
+  console.log("isLoggedIn:", isLoggedIn);
   return (
     <Navbar fluid rounded>
       <NavbarBrand href="/">
@@ -70,15 +66,17 @@ export function Component() {
       <Button color="dark" href="/signup" outline>
         Signup
       </Button>
-      {/* {isLoggedIn == true ? ( */}
-      <Button color="light" href="/login">
-        Login
-      </Button>
-      {/* ) : ( */}
-      <LogoutButton color="light" href="/">
-        Log out
-      </LogoutButton>
-      {/* )} */}
+
+      {isLoggedIn ? (
+        <Button color="gray" onClick={() => logout()} href="/">
+          Logout
+        </Button>
+      ) : (
+        // If logged out → show Login
+        <Button color="blue" onClick={() => (window.location.href = "/login")}>
+          Login
+        </Button>
+      )}
     </Navbar>
   );
 }

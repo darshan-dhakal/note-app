@@ -18,7 +18,7 @@ export default function Login() {
       console.log(res);
       const { accessToken, user } = res.data.data;
 
-      localStorage.setItem("token", accessToken);
+      localStorage.setItem("accessToken", accessToken);
 
       // alert("Login successful!");
       console.log("Logged in as:", user);

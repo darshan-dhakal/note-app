@@ -11,16 +11,22 @@ import {
   NavbarLink,
   NavbarToggle,
 } from "flowbite-react";
+import { useState } from "react";
+
+import { Home } from "../pages/Home.jsx";
+import { LogoutButton } from "./LogOutButton.jsx";
 
 export function Component() {
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const token = localStorage.getItem("token");
+  // if (!token) {
+  //   setIsLoggedIn(false);
+  // }
+  // console.log(isLoggedIn);
+
   return (
     <Navbar fluid rounded>
-      <NavbarBrand href="/dashboard">
-        {/* <img
-          src="../assets/logo.svg"
-          className="mr-3 h-6 sm:h-9"
-          alt="Flowbite React Logo"
-        /> */}
+      <NavbarBrand href="/">
         <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
           Note App
         </span>
@@ -47,12 +53,12 @@ export function Component() {
           <DropdownItem>Settings</DropdownItem>
           <DropdownItem>Earnings</DropdownItem>
           <DropdownDivider />
-          <DropdownItem>Sign out</DropdownItem>
+          <DropdownItem></DropdownItem>
         </Dropdown>
         <NavbarToggle />
       </div>
       <NavbarCollapse>
-        <NavbarLink href="#" active>
+        <NavbarLink href="/" active>
           Home
         </NavbarLink>
         <NavbarLink href="#">About</NavbarLink>
@@ -64,9 +70,15 @@ export function Component() {
       <Button color="dark" href="/signup" outline>
         Signup
       </Button>
+      {/* {isLoggedIn == true ? ( */}
       <Button color="light" href="/login">
         Login
       </Button>
+      {/* ) : ( */}
+      <LogoutButton color="light" href="/">
+        Log out
+      </LogoutButton>
+      {/* )} */}
     </Navbar>
   );
 }

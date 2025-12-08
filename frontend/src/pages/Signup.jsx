@@ -19,7 +19,6 @@ export default function Signup() {
   const watchAge = watch("age");
   const onSubmit = async (data) => {
     try {
-      console.log(data);
       const { confirmPassword, ...payload } = data;
       if (!payload.gender) {
         delete payload.gender;
@@ -27,7 +26,6 @@ export default function Signup() {
       const res = await axios.post("http://localhost:3000/api/users/", payload);
 
       alert("Account created successfully!");
-      console.log("User:", res.data);
 
       window.location.href = "/login";
     } catch (err) {

@@ -1,8 +1,16 @@
 import prisma from '../config/prisma.js'
 
 export const getNotes = async (req, res) => {
+  const userId = req.user.id
   try {
-    const notes = await prisma.note.findMany()
+    const notes = await prisma.note.findMany({
+      include: {
+        user: {
+          select: { id: true, email: true, name: true }
+        }
+      },
+      where: { userId }
+    })
     res.json(notes)
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch notes' })
@@ -12,8 +20,10 @@ export const getNotes = async (req, res) => {
 export const createNote = async (req, res) => {
   const { title, content } = req.body
   try {
+    console.log(req.user)
+
     const newNote = await prisma.note.create({
-      data: { title, content }
+      data: { title, content, userId: req.user.id }
     })
     res.json(newNote)
   } catch (error) {

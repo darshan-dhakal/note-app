@@ -6,9 +6,10 @@ import {
   updateNote,
   deleteNote
 } from '../controllers/noteController.js'
+import { authMiddleware } from '../middleware/auth.js'
 
-router.get('/', getNotes)
-router.post('/', createNote)
+router.get('/', authMiddleware, getNotes)
+router.post('/', authMiddleware, createNote)
 router.put('/:id', updateNote)
 router.delete('/:id', deleteNote)
 

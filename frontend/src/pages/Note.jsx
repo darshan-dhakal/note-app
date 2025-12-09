@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,7 +13,14 @@ import {
   Toast,
   ToastToggle,
 } from "flowbite-react";
-import { HiOutlinePlus, HiCheck, HiExclamation, HiX } from "react-icons/hi";
+import {
+  HiOutlinePlus,
+  HiCheck,
+  HiExclamation,
+  HiX,
+  HiOutlinePencil,
+  HiTrash,
+} from "react-icons/hi";
 
 export function Note() {
   const {
@@ -24,7 +31,27 @@ export function Note() {
   } = useForm({
     resolver: zodResolver(noteSchema),
   });
-  // const [notes, setNotes] = useState([]);
+
+  const [notes, setNotes] = useState([]);
+  // const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    fetchNotes();
+  }, []);
+
+  const fetchNotes = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/api/notes/", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
+
+      setNotes(res.data);
+    } catch (err) {
+      alert(err.response?.data?.error || "Failed to fetch notes");
+    }
+  };
 
   const onSubmit = async (data) => {
     try {
@@ -80,7 +107,7 @@ export function Note() {
         </Card>
       </div>
       <h2 className="text-xl font-bold mt-6">Your Notes</h2>
-      {/* 
+
       {notes.length === 0 ? (
         <Card>
           <p>No notes yet — create one!</p>
@@ -106,8 +133,7 @@ export function Note() {
             </Card>
           ))}
         </div>
-      )} */}
-      {/* <CreatedNotes /> */}
+      )}
     </Layouts>
   );
 }

@@ -5,7 +5,7 @@ import { AuthContext } from "../context/AuthContext";
 
 export function CreatedNotes() {
   const [notes, setNotes] = useState([]);
-  const { user } = useContext(AuthContext);
+  // const { user } = useContext(AuthContext);
 
   useEffect(() => {
     fetchNotes();
@@ -18,6 +18,7 @@ export function CreatedNotes() {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
+      console.log(res.data);
       setNotes(res.data);
       console.log(data);
     } catch (err) {

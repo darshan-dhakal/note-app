@@ -18,8 +18,7 @@ import { Home } from "../pages/Home.jsx";
 
 export function Component() {
   const { isLoggedIn, logout } = useContext(AuthContext);
-
-  console.log("isLoggedIn:", isLoggedIn);
+  const { user } = useContext(AuthContext);
   return (
     <Navbar fluid rounded>
       <NavbarBrand href="/">
@@ -40,9 +39,9 @@ export function Component() {
           }
         >
           <DropdownHeader>
-            <span className="block text-sm">Bonnie Green</span>
+            <span className="block text-sm">{user?.name}</span>
             <span className="block truncate text-sm font-medium">
-              name@flowbite.com
+              {user?.email}
             </span>
           </DropdownHeader>
           <DropdownItem>Dashboard</DropdownItem>

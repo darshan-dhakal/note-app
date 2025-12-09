@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,7 +14,6 @@ import {
   ToastToggle,
 } from "flowbite-react";
 import { HiOutlinePlus, HiCheck, HiExclamation, HiX } from "react-icons/hi";
-import { CreatedNotes } from "../components/CreatedNotes";
 
 export function Note() {
   const {
@@ -25,17 +24,17 @@ export function Note() {
   } = useForm({
     resolver: zodResolver(noteSchema),
   });
+  // const [notes, setNotes] = useState([]);
 
   const onSubmit = async (data) => {
     try {
       const res = await axios.post("http://localhost:3000/api/notes/", data, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
 
       alert("Note created successfully!");
-      console.log("Note:", res.data);
       window.location.reload();
     } catch (err) {
       alert(err.response?.data?.error || "Failed to create note");
@@ -75,24 +74,13 @@ export function Note() {
             </div>
             <Button type="submit">
               <HiOutlinePlus className="h-5 w-5 " />
+              <p className="p-2">Create Note</p>
             </Button>
-
-            {/* <div className="flex gap-2 items-center">
-              <Button type="submit">
-                <HiOutlinePlus className="h-5 w-5 " />
-                {editingId ? "Save Note" : "Create Note"}
-              </Button>
-              {editingId && (
-                <Button color="light" onClick={cancelEdit}>
-                  Cancel
-                </Button>
-              )}
-            </div> */}
           </form>
         </Card>
       </div>
-      {/* <h2 className="text-xl font-bold mt-6">Your Notes</h2>
-
+      <h2 className="text-xl font-bold mt-6">Your Notes</h2>
+      {/* 
       {notes.length === 0 ? (
         <Card>
           <p>No notes yet — create one!</p>

@@ -15,13 +15,15 @@ export default function Login() {
         email,
         password,
       });
-      console.log(res);
-      const { accessToken, user } = res.data.data;
+      const { accessToken } = res.data.data;
+      const { user } = res.data.data;
+
+      localStorage.setItem("user", JSON.stringify(user));
 
       localStorage.setItem("accessToken", accessToken);
 
       // alert("Login successful!");
-      console.log("Logged in as:", user);
+      // console.log("Logged in as:", user);
 
       window.location.href = "/note";
     } catch (err) {

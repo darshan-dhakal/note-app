@@ -10,7 +10,7 @@ import { authMiddleware } from '../middleware/auth.js'
 
 router.get('/', authMiddleware, getNotes)
 router.post('/', authMiddleware, createNote)
-router.put('/:id', updateNote)
-router.delete('/:id', deleteNote)
+router.put('/:id', authMiddleware, updateNote)
+router.delete('/:id', authMiddleware, deleteNote)
 
 export default router

@@ -22,7 +22,6 @@ export const UserController = {
     try {
       const { email, password } = req.body
       const user = await UserService.loginUser(email, password)
-      // console.log(user)
       res.status(200).json(user)
     } catch (error) {
       res.status(401).json({ error: error.message })

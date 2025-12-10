@@ -1,80 +1,72 @@
-// import { Button, Card, Navbar } from "flowbite-react";
-// import { HiOutlinePlus } from "react-icons/hi";
-
-// export function Home({ onCreate }) {
-//   return (
-//     <div className="min-h-screen bg-gray-50 flex flex-col">
-//       {/* TOP NAVBAR */}
-//       <Navbar fluid rounded className="shadow-sm bg-white">
-//         <Navbar.Brand>
-//           <span className="self-center whitespace-nowrap text-2xl font-bold text-blue-600">
-//             NotesApp
-//           </span>
-//         </Navbar.Brand>
-
-//         <div className="flex gap-3">
-//           <Button color="blue" onClick={onCreate}>
-//             <HiOutlinePlus />
-//             New Note
-//           </Button>
-
-//           {/* Toggle Login / Logout */}
-//           {localStorage.getItem("accessToken") ? (
-//             <Button
-//               color="gray"
-//               onClick={() => {
-//                 localStorage.removeItem("accessToken");
-//                 window.location.reload();
-//               }}
-//             >
-//               Logout
-//             </Button>
-//           ) : (
-//             <Button
-//               color="blue"
-//               onClick={() => (window.location.href = "/login")}
-//             >
-//               Login
-//             </Button>
-//           )}
-//         </div>
-//       </Navbar>
-
-//       {/* MAIN CONTENT */}
-//       <div className="flex-1 container mx-auto px-6 py-8">
-//         <h1 className="text-3xl font-bold mb-6 text-gray-800">Your Notes</h1>
-
-//         {/* Example Notes Grid */}
-//         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-//           {[1, 2, 3].map((n) => (
-//             <Card
-//               key={n}
-//               className="hover:shadow-lg transition-all duration-200"
-//             >
-//               <h2 className="text-xl font-semibold">Sample Note {n}</h2>
-//               <p className="mt-2 text-gray-600">
-//                 This is a demo note. Replace with your actual notes data.
-//               </p>
-
-//               <div className="flex gap-2 mt-4">
-//                 <Button color="light">Edit</Button>
-//                 <Button color="failure">Delete</Button>
-//               </div>
-//             </Card>
-//           ))}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-// export default Home;
 import { Layouts } from "../components/Layouts";
-import { CreatedNotes } from "../components/CreatedNotes";
+import { Button, Card } from "flowbite-react";
+import { Link } from "react-router-dom";
+import {
+  PlusIcon,
+  DocumentTextIcon,
+  ShieldCheckIcon,
+  PencilSquareIcon,
+} from "@heroicons/react/24/outline";
 
 export function Home() {
   return (
     <Layouts>
-      <h1>this is home page</h1>
+      <section className="max-w-5xl mx-auto px-4 py-10">
+        {/* Hero Section */}
+        <div className="text-center py-10">
+          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 mb-4">
+            Welcome to Your Note Manager
+          </h1>
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            Create, organize, and manage your personal notes with a clean user
+            interface powered by React, Vite, and Flowbite components.
+          </p>
+
+          {/* Call-to-action Buttons */}
+          <div className="flex items-center justify-center mt-8 gap-4">
+            <Link to="/note">
+              <Button color="blue" className="flex items-center gap-2">
+                <PlusIcon className="w-5 h-5" />
+                Create Note
+              </Button>
+            </Link>
+
+            <Link to="/notes">
+              <Button color="gray" className="flex items-center gap-2">
+                <DocumentTextIcon className="w-5 h-5" />
+                View Notes
+              </Button>
+            </Link>
+          </div>
+        </div>
+
+        {/* Features Grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+          <Card className="hover:shadow-lg transition-shadow">
+            <PencilSquareIcon className="w-12 h-12 text-blue-600 mb-3" />
+            <h5 className="text-xl font-semibold">Easy Editing</h5>
+            <p className="text-gray-600">
+              Quickly update and format your notes with a user-friendly editor.
+            </p>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow">
+            <ShieldCheckIcon className="w-12 h-12 text-green-600 mb-3" />
+            <h5 className="text-xl font-semibold">Secure Access</h5>
+            <p className="text-gray-600">
+              Only authenticated users can create, edit, or delete notes.
+            </p>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow">
+            <DocumentTextIcon className="w-12 h-12 text-purple-600 mb-3" />
+            <h5 className="text-xl font-semibold">Organized Management</h5>
+            <p className="text-gray-600">
+              Keep your notes well-organized and accessible from anywhere.
+            </p>
+          </Card>
+        </div>
+      </section>
     </Layouts>
   );
 }

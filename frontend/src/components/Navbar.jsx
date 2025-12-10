@@ -11,72 +11,86 @@ import {
   NavbarLink,
   NavbarToggle,
 } from "flowbite-react";
+
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext.jsx";
 
-import { Home } from "../pages/Home.jsx";
+export default function Component() {
+  const { isLoggedIn, logout, user } = useContext(AuthContext);
 
-export function Component() {
-  const { isLoggedIn, logout } = useContext(AuthContext);
-  const { user } = useContext(AuthContext);
   return (
-    <Navbar fluid rounded>
+    <Navbar fluid rounded className="shadow-sm py-3">
+      {/* Brand */}
       <NavbarBrand href="/">
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+        <span className="self-center whitespace-nowrap text-2xl font-bold text-gray-900">
           Note App
         </span>
       </NavbarBrand>
-      <div className="flex md:order-2">
-        <Dropdown
-          arrowIcon={false}
-          inline
-          label={
-            <Avatar
-              alt="User settings"
-              img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-              rounded
-            />
-          }
-        >
-          <DropdownHeader>
-            <span className="block text-sm">{user?.name}</span>
-            <span className="block truncate text-sm font-medium">
-              {user?.email}
-            </span>
-          </DropdownHeader>
-          <DropdownItem>Dashboard</DropdownItem>
-          <DropdownItem>Settings</DropdownItem>
-          <DropdownItem>Earnings</DropdownItem>
-          <DropdownDivider />
-          <DropdownItem></DropdownItem>
-        </Dropdown>
+
+      {/* Right-side */}
+      <div className="flex md:order-2 items-center gap-3">
+        {/* Only show user dropdown if logged in */}
+        {isLoggedIn && (
+          <Dropdown
+            inline
+            arrowIcon={false}
+            label={
+              <Avatar
+                rounded
+                alt="User avatar"
+                img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+              />
+            }
+          >
+            <DropdownHeader>
+              <span className="block text-sm font-semibold">
+                {user?.name || "User"}
+              </span>
+              <span className="block truncate text-sm text-gray-600">
+                {user?.email}
+              </span>
+            </DropdownHeader>
+
+            <DropdownItem href="/dashboard">Dashboard</DropdownItem>
+            <DropdownItem href="/profile">Profile</DropdownItem>
+            <DropdownItem href="/settings">Settings</DropdownItem>
+
+            <DropdownDivider />
+
+            <DropdownItem onClick={() => logout()} href="/">
+              Logout
+            </DropdownItem>
+          </Dropdown>
+        )}
+
+        {/* If NOT logged in → show buttons */}
+        {!isLoggedIn && (
+          <>
+            <Button color="light" href="/login">
+              Login
+            </Button>
+            <Button color="dark" href="/signup">
+              Signup
+            </Button>
+          </>
+        )}
+
         <NavbarToggle />
       </div>
+
+      {/* Navigation links */}
       <NavbarCollapse>
         <NavbarLink href="/" active>
           Home
         </NavbarLink>
-        <NavbarLink href="#">About</NavbarLink>
-        <NavbarLink href="#">Services</NavbarLink>
-        <NavbarLink href="#">Pricing</NavbarLink>
-        <NavbarLink href="#">Contact</NavbarLink>
+        <NavbarLink href="/about">About</NavbarLink>
+        <NavbarLink href="/services">Services</NavbarLink>
+        <NavbarLink href="/pricing">Pricing</NavbarLink>
+        <NavbarLink href="/contact">Contact</NavbarLink>
+
+        {/* If logged in → show Note page */}
+        {isLoggedIn && <NavbarLink href="/note">My Notes</NavbarLink>}
       </NavbarCollapse>
-
-      <Button color="dark" href="/signup" outline>
-        Signup
-      </Button>
-
-      {isLoggedIn ? (
-        <Button color="gray" onClick={() => logout()} href="/">
-          Logout
-        </Button>
-      ) : (
-        // If logged out → show Login
-        <Button color="blue" onClick={() => (window.location.href = "/login")}>
-          Login
-        </Button>
-      )}
     </Navbar>
   );
 }
-export default Component;

@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { userSchema } from "../schemas/userSchema";
 import Layouts from "../components/Layouts";
-import { Label, TextInput } from "flowbite-react";
+import { Label, TextInput, Card, Button, Select } from "flowbite-react";
 import { HiMail } from "react-icons/hi";
 
 export default function Signup() {
@@ -16,17 +16,20 @@ export default function Signup() {
   } = useForm({
     resolver: zodResolver(userSchema),
   });
+
   const watchAge = watch("age");
+
   const onSubmit = async (data) => {
     try {
       const { confirmPassword, ...payload } = data;
+
       if (!payload.gender) {
         delete payload.gender;
       }
-      const res = await axios.post("http://localhost:3000/api/users/", payload);
+
+      await axios.post("http://localhost:3000/api/users/", payload);
 
       alert("Account created successfully!");
-
       window.location.href = "/login";
     } catch (err) {
       alert(err.response?.data?.error || "Signup failed");
@@ -35,130 +38,118 @@ export default function Signup() {
 
   return (
     <Layouts>
-      <div
-        style={{
-          height: "100vh",
-          width: "100vw",
-          // margin: "auto",
-          // marginTop: "80px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#f9f9f9",
-          padding: "20px",
-          borderRadius: "10px",
-          boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: "400px",
-            width: "100%",
-            padding: "20px",
-            borderRadius: "10px",
-            background: "white",
-            boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-          }}
-        >
-          <h2 style={{ textAlign: "center" }}>Create Account</h2>
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+        <Card className="w-full max-w-md shadow-lg">
+          <h2 className="text-3xl font-bold text-center mb-6">
+            Create Account
+          </h2>
 
-          {/* {errors && <p style={{ color: "red" }}>{errors}</p>} */}
-
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="max-w-md">
-              <div className="mb-2 block">
-                <Label>Your Full Name</Label>
-              </div>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col gap-4"
+          >
+            {/* Full Name */}
+            <div>
+              <Label htmlFor="name" value="Full Name" />
               <TextInput
+                id="name"
                 type="text"
-                name="name"
                 placeholder="Full Name"
                 {...register("name")}
               />
+              <p className="text-red-600 text-sm mt-1">
+                {errors.name?.message}
+              </p>
             </div>
-            <p style={{ color: "red" }}>{errors.name?.message}</p>
-            <div className="max-w-md mt-2">
-              <div className="mb-2 block">
-                <Label>Your email</Label>
-              </div>
+
+            {/* Email */}
+            <div>
+              <Label htmlFor="email" value="Email Address" />
               <TextInput
+                id="email"
                 type="email"
                 icon={HiMail}
                 placeholder="Email address"
                 {...register("email")}
               />
+              <p className="text-red-600 text-sm mt-1">
+                {errors.email?.message}
+              </p>
             </div>
-            <p style={{ color: "red" }}>{errors.email?.message}</p>
-            <div className="mt-2 block">
-              <Label>Password</Label>
-            </div>
-            <TextInput
-              type="password"
-              name="password"
-              placeholder="Create password"
-              {...register("password")}
-            />
-            <p style={{ color: "red" }}>{errors.password?.message}</p>
-            <div className="mt-2 block">
-              <Label>Confirm Password</Label>
-            </div>
-            <TextInput
-              type="password"
-              placeholder="Confirm password"
-              {...register("confirmPassword")}
-            />
-            <p style={{ color: "red" }}>{errors.confirmPassword?.message}</p>
+
+            {/* Password */}
             <div>
-              <div className="mt-2 block">
-                <Label>Enter Your Age</Label>
-              </div>
+              <Label htmlFor="password" value="Password" />
               <TextInput
+                id="password"
+                type="password"
+                placeholder="Create password"
+                {...register("password")}
+              />
+              <p className="text-red-600 text-sm mt-1">
+                {errors.password?.message}
+              </p>
+            </div>
+
+            {/* Confirm Password */}
+            <div>
+              <Label htmlFor="confirmPassword" value="Confirm Password" />
+              <TextInput
+                id="confirmPassword"
+                type="password"
+                placeholder="Confirm password"
+                {...register("confirmPassword")}
+              />
+              <p className="text-red-600 text-sm mt-1">
+                {errors.confirmPassword?.message}
+              </p>
+            </div>
+
+            {/* Age */}
+            <div>
+              <Label htmlFor="age" value="Your Age" />
+              <TextInput
+                id="age"
                 type="number"
-                placeholder="Enter you age"
+                placeholder="Enter your age"
                 {...register("age")}
               />
-              <p style={{ color: "red" }}>{errors.age?.message}</p>
+              <p className="text-red-600 text-sm mt-1">{errors.age?.message}</p>
             </div>
+
+            {/* Gender only when age > 18 */}
             {Number(watchAge) > 18 && (
               <div>
-                <div style={{ marginTop: "10px" }}>Select your gender</div>
-                <div style={{ display: "flex" }}>
-                  <select
-                    {...register("gender")}
-                    style={{
-                      width: "100%",
-                      padding: "10px",
-                      marginTop: "10px",
-                    }}
-                  >
-                    <option value="">Select Gender</option>
-                    <option value="MALE">Male</option>
-                    <option value="FEMALE">Female</option>
-                    <option value="OTHER">Other</option>
-                  </select>
-                </div>
-                <p style={{ color: "red" }}>{errors.gender?.message}</p>
+                <Label htmlFor="gender" value="Gender" />
+                <Select id="gender" {...register("gender")}>
+                  <option value="">Select Gender</option>
+                  <option value="MALE">Male</option>
+                  <option value="FEMALE">Female</option>
+                  <option value="OTHER">Other</option>
+                </Select>
+                <p className="text-red-600 text-sm mt-1">
+                  {errors.gender?.message}
+                </p>
               </div>
             )}
-            <div style={{ textAlign: "center", marginTop: "20px" }}>
-              Already have an account? <a href="/login">Login</a>
-            </div>
-            <button
-              type="submit"
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginTop: "15px",
-                backgroundColor: "black",
-                color: "white",
-              }}
-            >
+
+            {/* Login Redirect */}
+            <p className="text-center text-sm text-gray-600">
+              Already have an account?{" "}
+              <a href="/login" className="text-blue-600 hover:underline">
+                Login
+              </a>
+            </p>
+
+            {/* Submit Button */}
+            <Button type="submit" color="dark" className="w-full">
               Signup
-            </button>
+            </Button>
           </form>
-        </div>
+        </Card>
       </div>
     </Layouts>
   );
 }
+
 export { Signup };

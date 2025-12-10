@@ -1,8 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 import Layouts from "../components/Layouts";
+import { Button, Label, TextInput, Card } from "flowbite-react";
 
-export default function Login() {
+export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -15,15 +16,11 @@ export default function Login() {
         email,
         password,
       });
-      const { accessToken } = res.data.data;
-      const { user } = res.data.data;
+
+      const { accessToken, user } = res.data.data;
 
       localStorage.setItem("user", JSON.stringify(user));
-
       localStorage.setItem("accessToken", accessToken);
-
-      // alert("Login successful!");
-      // console.log("Logged in as:", user);
 
       window.location.href = "/note";
     } catch (err) {
@@ -33,93 +30,67 @@ export default function Login() {
 
   return (
     <Layouts>
-      <div
-        style={{
-          height: "100vh",
-          width: "100vw",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#f9f9f9",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: "400px",
-            width: "100%",
-            padding: "20px",
-            borderRadius: "10px",
-            background: "white",
-            boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-          }}
-        >
-          <h2 style={{ textAlign: "center" }}>Login</h2>
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+        <Card className="w-full max-w-md shadow-lg">
+          <h2 className="text-3xl font-bold text-center mb-6">Login</h2>
 
-          <form onSubmit={handleSubmit}>
-            {error && <p style={{ color: "red" }}>{error}</p>}
-            <div style={{ display: "flex" }}>
-              <input
+          {error && (
+            <p className="text-red-600 text-center mb-3 text-sm font-semibold">
+              {error}
+            </p>
+          )}
+
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            {/* Email */}
+            <div>
+              <Label htmlFor="email" value="Email" className="mb-1" />
+              <TextInput
+                id="email"
                 type="email"
-                placeholder="Enter email"
+                placeholder="Enter your email"
+                required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
-                style={{ width: "100%", padding: "10px", marginTop: "10px" }}
               />
             </div>
-            <div style={{ display: "flex" }}>
-              <input
+
+            {/* Password */}
+            <div>
+              <Label htmlFor="password" value="Password" className="mb-1" />
+              <TextInput
+                id="password"
                 type="password"
-                placeholder="Enter password"
+                placeholder="Enter your password"
+                required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  flex: "1",
-                  marginTop: "10px",
-                }}
               />
             </div>
-            <p style={{ textAlign: "center" }}>
-              Don't have an account? <a href="/signup">Sign up</a>
-            </p>
-            <p style={{ textAlign: "center" }}>
-              <a href="/forgot-password">Forgot password?</a>
-            </p>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: "20px",
-              }}
-            >
+
+            {/* Links */}
+            <div className="flex flex-col items-center text-sm text-gray-600">
+              <div className="flex flex-row items-center gap-1">
+                <span>Don't have an account?</span>
+                <a href="/signup" className="hover:underline text-blue-600">
+                  Sign up
+                </a>
+              </div>
+
               <a
-                href="/change-password"
-                style={{ textDecoration: "none", color: "#646cff" }}
-              ></a>
+                href="/forgot-password"
+                className="hover:underline mt-1 text-blue-600"
+              >
+                Forgot password?
+              </a>
             </div>
-            <button
-              type="submit"
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginTop: "15px",
-                backgroundColor: "black",
-                color: "white",
-                borderRadius: "5px",
-                border: "none",
-              }}
-            >
+
+            {/* Submit */}
+            <Button type="submit" color="dark" className="w-full">
               Login
-            </button>
+            </Button>
           </form>
-        </div>
+        </Card>
       </div>
     </Layouts>
   );
 }
-
-export { Login };

@@ -33,7 +33,6 @@ export function Note() {
   });
 
   const [notes, setNotes] = useState([]);
-  // const { user } = useContext(AuthContext);
 
   useEffect(() => {
     fetchNotes();

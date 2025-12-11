@@ -65,7 +65,7 @@ export default function Signup() {
               <Label htmlFor="email" value="Email Address" />
               <TextInput
                 id="email"
-                type="email"
+                type="text"
                 icon={HiMail}
                 placeholder="Email address"
                 {...register("email")}

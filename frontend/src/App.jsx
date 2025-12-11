@@ -4,10 +4,11 @@ import { Login } from "./pages/Login.jsx";
 import { Signup } from "./pages/Signup.jsx";
 import { ForgotPassword } from "./pages/ForgotPassword.jsx";
 import { ResetPassword } from "./pages/ResetPassword.jsx";
-// import { Dashboard } from "./pages/Dashboard.jsx";
 import { Home } from "./pages/Home.jsx";
 import { Note } from "./pages/Note.jsx";
 import { ProtectedRoutes } from "./components/ProtectedRoutes.jsx";
+import { About } from "./pages/About.jsx";
+import { Profile } from "./pages/Profile.jsx";
 function App() {
   return (
     <>
@@ -25,8 +26,11 @@ function App() {
               </ProtectedRoutes>
             }
           />
+
           {/* <Route path="/dashboard" element={<Dashboard />} /> */}
           <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </Router>
     </>

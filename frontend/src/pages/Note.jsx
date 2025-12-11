@@ -1,202 +1,3 @@
-// import React, { useContext, useState, useEffect } from "react";
-// import axios from "axios";
-// import { useForm } from "react-hook-form";
-// import { zodResolver } from "@hookform/resolvers/zod";
-// import { noteSchema } from "../schemas/noteSchema";
-// import Layouts from "../components/Layouts";
-// import {
-//   Label,
-//   Textarea,
-//   TextInput,
-//   Button,
-//   Card,
-//   Toast,
-//   ToastToggle,
-// } from "flowbite-react";
-// import {
-//   HiOutlinePlus,
-//   HiCheck,
-//   HiExclamation,
-//   HiX,
-//   HiOutlinePencil,
-//   HiTrash,
-// } from "react-icons/hi";
-
-// export function Note() {
-//   const {
-//     register,
-//     handleSubmit,
-//     watch,
-//     reset,
-//     formState: { errors },
-//   } = useForm({
-//     resolver: zodResolver(noteSchema),
-//   });
-
-//   const [notes, setNotes] = useState([]);
-
-//   const [isEditOpen, setIsEditOpen] = useState(false);
-//   const [editNoteId, setEditNoteId] = useState(null);
-
-//   useEffect(() => {
-//     fetchNotes();
-//   }, []);
-
-//   const fetchNotes = async () => {
-//     try {
-//       const res = await axios.get("http://localhost:3000/api/notes/", {
-//         headers: {
-//           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-//         },
-//       });
-
-//       setNotes(res.data);
-//     } catch (err) {
-//       alert(err.response?.data?.error || "Failed to fetch notes");
-//     }
-//   };
-
-//   const onSubmit = async (data) => {
-//     if (isEditOpen && editNoteId !== null) {
-//       await axios.put(`http://localhost:3000/api/notes/${editNoteId}`, data, {
-//         headers: {
-//           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-//         },
-//       });
-//       window.location.reload();
-//       setNotes((prev) =>
-//         prev.map((n) => (n.id === editNoteId ? { ...n, ...data } : n))
-//       );
-//       const newNote = { ...data, id: Date.now() };
-//       setNotes([newNote, ...notes]);
-//       reset();
-//       setIsEditOpen(false);
-//       setEditNoteId(null);
-//       reset({ title: "", content: "" });
-//       console.log(isEditOpen, editNoteId);
-//     } else {
-//       const res = await axios.post("http://localhost:3000/api/notes/", data, {
-//         headers: {
-//           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-//         },
-//       });
-//       window.location.reload();
-
-//       alert("Note created successfully!");
-//       // window.location.reload();
-//       reset({ title: "", content: "" });
-//     }
-//   };
-
-//   const handleEdit = (note) => {
-//     window.scrollTo({ top: 0, behavior: "smooth" });
-
-//     setIsEditOpen(true);
-//     setEditNoteId(note.id);
-//     reset({
-//       title: note.title,
-//       content: note.content,
-//     });
-//   };
-//   return (
-//     <Layouts>
-//       <div className="p-6 max-w-4xl mx-auto space-y-6">
-//         <Card>
-//           <h2 className="text-2xl font-bold mb-3">Create a New Note</h2>
-
-//           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-//             <div>
-//               <Label htmlFor="title">Title</Label>
-//               <TextInput
-//                 id="title"
-//                 placeholder="Title"
-//                 {...register("title")}
-//               />
-//               {errors.title && (
-//                 <p className="text-red-500 text-sm">{errors.title.message}</p>
-//               )}
-//             </div>
-
-//             <div>
-//               <Label htmlFor="content">Content</Label>
-//               <Textarea
-//                 id="content"
-//                 rows={4}
-//                 placeholder="Your note..."
-//                 {...register("content")}
-//               />
-//               {errors.content && (
-//                 <p className="text-red-500 text-sm">{errors.content.message}</p>
-//               )}
-//             </div>
-//             <div className="flex gap-2">
-//               <Button
-//                 // onClick={() => setIsEditOpen(true)}
-//                 type="submit"
-//               >
-//                 {isEditOpen ? (
-//                   <HiOutlinePencil className="h-5 w-5" />
-//                 ) : (
-//                   <HiOutlinePlus className="h-5 w-5" />
-//                 )}
-//                 <p className="p-2">
-//                   {isEditOpen ? "Update Note" : "Create Note"}
-//                 </p>
-//               </Button>
-//               {isEditOpen && (
-//                 <Button
-//                   onClick={() => {
-//                     setEditNoteId(null);
-//                     setIsEditOpen(false);
-//                     reset({ title: "", content: "" });
-//                   }}
-//                   type="button"
-//                 >
-//                   <p className="p-2">Cancel Update</p>
-//                 </Button>
-//               )}
-//             </div>
-//           </form>
-//         </Card>
-//       </div>
-//       <h2 className="text-xl font-bold mt-6">Your Notes</h2>
-
-//       {notes.length === 0 ? (
-//         <Card>
-//           <p>No notes yet — create one!</p>
-//         </Card>
-//       ) : (
-//         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//           {notes.map((note) => (
-//             <Card key={note.id}>
-//               <div className="flex justify-between items-start">
-//                 <div>
-//                   <h3 className="text-lg font-semibold">{note.title} </h3>
-//                   <p className="mt-2 whitespace-pre-wrap">{note.content}</p>
-//                 </div>
-//                 <div className="flex flex-col gap-2 ml-4">
-//                   <Button
-//                     color="light"
-//                     onClick={() => {
-//                       handleEdit(note);
-//                     }}
-//                   >
-//                     <HiOutlinePencil className="h-5 w-5" />
-//                   </Button>
-
-//                   <Button color="failure" onClick={() => handleDelete(note.id)}>
-//                     <HiTrash className="h-5 w-5" />
-//                   </Button>
-//                 </div>
-//               </div>
-//             </Card>
-//           ))}
-//         </div>
-//       )}
-//     </Layouts>
-//   );
-// }
-// export default Note;
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -219,6 +20,7 @@ export function Note() {
   const [notes, setNotes] = useState([]);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editNoteId, setEditNoteId] = useState(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
 
   useEffect(() => {
     fetchNotes();
@@ -268,6 +70,23 @@ export function Note() {
     setIsEditOpen(true);
     setEditNoteId(note.id);
     reset({ title: note.title, content: note.content });
+  };
+  const handleDelete = async (id) => {
+    try {
+      const previousNotes = [...notes];
+      setNotes((prev) => prev.filter((note) => note.id !== id));
+      setConfirmDeleteId(null); // close card immediately
+
+      await axios.delete(`http://localhost:3000/api/notes/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
+    } catch (err) {
+      alert(err.response?.data?.error || "Failed to delete note");
+      setNotes(previousNotes);
+    }
+    // window.location.reload();
   };
 
   return (
@@ -380,10 +199,40 @@ export function Note() {
                         <Button
                           color="failure"
                           className="shadow-sm"
-                          onClick={() => handleDelete(note.id)}
+                          onClick={() => setConfirmDeleteId(note.id)}
                         >
                           <HiTrash className="h-5 w-5" />
                         </Button>
+                        {confirmDeleteId && (
+                          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                            <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md">
+                              <h3 className="text-xl font-semibold mb-3">
+                                Confirm Deletion
+                              </h3>
+
+                              <p className="text-gray-600 mb-6">
+                                Are you sure you want to delete this note? This
+                                action is permanent and cannot be undone.
+                              </p>
+
+                              <div className="flex justify-end gap-3">
+                                <button
+                                  className="px-4 py-2 rounded-md border border-gray-300"
+                                  onClick={() => setConfirmDeleteId(null)}
+                                >
+                                  Cancel
+                                </button>
+
+                                <button
+                                  className="px-4 py-2 rounded-md bg-red-600 text-white"
+                                  onClick={() => handleDelete(confirmDeleteId)}
+                                >
+                                  Yes, Delete
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </Card>

@@ -18,9 +18,8 @@ export function CreatedNotes() {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
-      console.log(res.data);
+
       setNotes(res.data);
-      console.log(data);
     } catch (err) {
       alert(err.response?.data?.error || "Failed to fetch notes");
     }

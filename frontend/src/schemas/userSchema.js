@@ -1,9 +1,16 @@
 import { z } from 'zod'
 
+const nameRegex = /^[A-Za-z][A-Za-z ]*[A-Za-z]$/
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
 export const userSchema = z
   .object({
-    name: z.string().min(3, 'Name must be at least 3 characters long'),
-    email: z.string().email('Invalid email address'),
+    name: z
+      .string()
+      .min(3, 'Name must be at least 3 characters long')
+      .max(50, 'Name cannot exceed 50 characters')
+      .regex(nameRegex, 'Name can only contain letters and spaces'),
+    email: z.string().regex(emailRegex, 'Invalid email address'),
     password: z.string().min(6, 'Password must be atleast 6 character long.'),
     confirmPassword: z.string(),
     age: z

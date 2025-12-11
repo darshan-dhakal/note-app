@@ -16,7 +16,6 @@ export default function ResetPassword() {
       return setError("Passwords do not match");
     }
     try {
-      // console.log(password, token);
       const res = await axios.post(
         `http://localhost:3000/api/users/reset-password/${token}`,
         { password: password }

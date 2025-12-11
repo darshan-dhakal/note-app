@@ -35,18 +35,9 @@ export const UserController = {
       res.status(404).json({ error: error.message })
     }
   },
-  // getUserByAge: async (req, res) => {
-  //   try {
-  //     const ageData = await UserService.getUserAge(req.params.id)
-  //     res.status(200).json(ageData)
-  //     console.log(ageData)
-  //   } catch (error) {
-  //     res.status(404).json({ error: error.message })
-  //   }
-  // },
+
   forgotPassword: async (req, res) => {
     try {
-      // console.log(req.body)
       const { email } = req.body
       const user = await UserService.getUserByEmail(email)
       // Check if user exists
@@ -57,19 +48,12 @@ export const UserController = {
       // Create reset token
       const resetToken = crypto.randomBytes(32).toString('hex')
       const resetTokenExpiry = new Date(Date.now() + 1000 * 60 * 10) // 10 minutes
-      // console.log(typeof resetTokenExpiry)
-      // console.log(resetTokenExpiry)
 
       // Save token to database
       const updatedUser = await UserService.updateUser(user.id, {
         resetToken,
         resetTokenExpiry
       })
-
-      // await prisma.user.update({
-      //   updatedUser
-      // })
-      // console.log(updatedUser)
 
       // Create password reset link
       const resetLink = `http://localhost:5173/reset-password/${resetToken}`
@@ -100,7 +84,6 @@ export const UserController = {
 
       res.json({ message: 'Reset link sent to email' })
     } catch (error) {
-      console.error(error)
       res.status(500).json({ error })
     }
   },
@@ -124,7 +107,6 @@ export const UserController = {
       }
 
       // Hash new password
-      // console.log(newPassword)
       const hashedPassword = await hashPassword(password)
 
       // Update user's password and clear reset token
@@ -139,7 +121,6 @@ export const UserController = {
 
       res.json({ message: 'Password has been reset successfully' })
     } catch (error) {
-      console.error(error)
       res.status(500).json({ error: 'Something went wrong' })
     }
   }

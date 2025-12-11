@@ -12,7 +12,6 @@ export const getNotes = async (req, res) => {
       where: { userId }
     })
     res.json(notes)
-    console.log(notes)
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch notes' })
   }
@@ -21,8 +20,6 @@ export const getNotes = async (req, res) => {
 export const createNote = async (req, res) => {
   const { title, content } = req.body
   try {
-    // console.log(req.user)
-
     const newNote = await prisma.note.create({
       data: { title, content, userId: req.user.id }
     })

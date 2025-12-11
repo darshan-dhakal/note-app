@@ -8,7 +8,6 @@ export const UserRepo = {
     return prisma.user.findUnique({ where: { email } })
   },
   findById: id => {
-    // console.log('Finding user by ID:', Number(id))
     return prisma.user.findUnique({ where: { id: Number(id) } })
   },
   findAll: () => {

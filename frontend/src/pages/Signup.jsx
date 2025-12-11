@@ -48,7 +48,6 @@ export default function Signup() {
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-4"
           >
-            {/* Full Name */}
             <div>
               <Label htmlFor="name" value="Full Name" />
               <TextInput
@@ -62,7 +61,6 @@ export default function Signup() {
               </p>
             </div>
 
-            {/* Email */}
             <div>
               <Label htmlFor="email" value="Email Address" />
               <TextInput
@@ -77,7 +75,6 @@ export default function Signup() {
               </p>
             </div>
 
-            {/* Password */}
             <div>
               <Label htmlFor="password" value="Password" />
               <TextInput
@@ -91,7 +88,6 @@ export default function Signup() {
               </p>
             </div>
 
-            {/* Confirm Password */}
             <div>
               <Label htmlFor="confirmPassword" value="Confirm Password" />
               <TextInput
@@ -105,7 +101,6 @@ export default function Signup() {
               </p>
             </div>
 
-            {/* Age */}
             <div>
               <Label htmlFor="age" value="Your Age" />
               <TextInput
@@ -117,7 +112,6 @@ export default function Signup() {
               <p className="text-red-600 text-sm mt-1">{errors.age?.message}</p>
             </div>
 
-            {/* Gender only when age > 18 */}
             {Number(watchAge) > 18 && (
               <div>
                 <Label htmlFor="gender" value="Gender" />
@@ -133,7 +127,6 @@ export default function Signup() {
               </div>
             )}
 
-            {/* Login Redirect */}
             <p className="text-center text-sm text-gray-600">
               Already have an account?{" "}
               <a href="/login" className="text-blue-600 hover:underline">
@@ -141,7 +134,6 @@ export default function Signup() {
               </a>
             </p>
 
-            {/* Submit Button */}
             <Button type="submit" color="dark" className="w-full">
               Signup
             </Button>

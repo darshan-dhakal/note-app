@@ -34,7 +34,7 @@ export function Profile() {
                   className="w-36 h-36 rounded-full object-cover shadow-sm"
                 />
               ) : (
-                <FaUserCircle className="w-36 h-36 text-gray-300" />
+                <FaUserCircle className="w-30 h-30 text-gray-300" />
               )}
             </div>
 

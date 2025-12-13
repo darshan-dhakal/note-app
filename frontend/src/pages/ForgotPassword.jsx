@@ -16,7 +16,6 @@ export default function ForgotPassword() {
       );
 
       alert("Password reset link sent to your email!");
-      console.log("Password reset link sent:", res.data);
 
       window.location.href = "/login";
     } catch (err) {

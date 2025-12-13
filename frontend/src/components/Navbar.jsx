@@ -11,6 +11,7 @@ import {
   NavbarLink,
   NavbarToggle,
 } from "flowbite-react";
+import { FaUserCircle } from "react-icons/fa";
 
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext.jsx";
@@ -35,11 +36,12 @@ export default function Component() {
             inline
             arrowIcon={false}
             label={
-              <Avatar
-                rounded
-                alt="User avatar"
-                img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-              />
+              // <Avatar
+              //   rounded
+              //   alt="User avatar"
+              //   img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+              // />
+              <FaUserCircle className="w-8 h-8 text-gray-300" />
             }
           >
             <DropdownHeader>
@@ -51,9 +53,9 @@ export default function Component() {
               </span>
             </DropdownHeader>
 
-            <DropdownItem href="/dashboard">Dashboard</DropdownItem>
+            {/* <DropdownItem href="/dashboard">Dashboard</DropdownItem> */}
             <DropdownItem href="/profile">Profile</DropdownItem>
-            <DropdownItem href="/settings">Settings</DropdownItem>
+            {/* <DropdownItem href="/settings">Settings</DropdownItem> */}
 
             <DropdownDivider />
 

@@ -31,7 +31,7 @@ export function Home() {
               </Button>
             </Link>
 
-            <Link to="/notes">
+            <Link to="/note">
               <Button color="gray" className="flex items-center gap-2">
                 <DocumentTextIcon className="w-5 h-5" />
                 View Notes

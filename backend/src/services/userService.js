@@ -58,7 +58,7 @@ export const UserService = {
     }
     const isMatch = await comparePassword(password, user.password)
     if (!isMatch) {
-      throw new Error('Invalid password')
+      throw new Error('Invalid Password')
     }
     const { password: _, ...userWithoutPassword } = user
     const accessToken = generateToken(user.id)

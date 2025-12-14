@@ -1,20 +1,27 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { noteSchema } from "../schemas/noteSchema";
 import Layouts from "../components/Layouts";
 import { Label, Textarea, TextInput, Button, Card } from "flowbite-react";
 import { HiOutlinePlus, HiOutlinePencil, HiTrash } from "react-icons/hi";
+import ReminderInput from "../components/ReminderInput";
 
-export function Note() {
+export default function Note() {
   const {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(noteSchema),
+    defaultValues: {
+      title: "",
+      content: "",
+      reminders: [],
+    },
   });
 
   const [notes, setNotes] = useState([]);
@@ -34,6 +41,7 @@ export function Note() {
         },
       });
       setNotes(res.data);
+      console.log(res.data);
     } catch (err) {
       alert(err.response?.data?.error || "Failed to fetch notes");
     }
@@ -60,6 +68,7 @@ export function Note() {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
+
       window.location.reload();
       reset({ title: "", content: "" });
     }
@@ -72,8 +81,8 @@ export function Note() {
     reset({ title: note.title, content: note.content });
   };
   const handleDelete = async (id) => {
+    const previousNotes = [...notes];
     try {
-      const previousNotes = [...notes];
       setNotes((prev) => prev.filter((note) => note.id !== id));
       setConfirmDeleteId(null); // close card immediately
 
@@ -131,6 +140,17 @@ export function Note() {
                   </p>
                 )}
               </div>
+              <Controller
+                name="reminders"
+                control={control}
+                defaultValue={[]}
+                render={({ field }) => (
+                  <ReminderInput
+                    initialValue={field.value}
+                    onChange={field.onChange}
+                  />
+                )}
+              />
 
               <div className="flex gap-3">
                 <Button type="submit" className="flex items-center gap-2 px-5">
@@ -171,20 +191,41 @@ export function Note() {
                 <p className="text-gray-500 text-lg">You have no notes yet.</p>
               </Card>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
                 {notes.map((note) => (
                   <Card
                     key={note.id}
                     className="p-6 rounded-xl shadow-lg border border-gray-200 bg-white hover:shadow-xl transition-shadow"
                   >
                     <div className="flex justify-between items-start">
-                      <div>
+                      <div className="min-w-0 ">
                         <h3 className="text-xl font-semibold text-gray-900">
                           {note.title}
                         </h3>
-                        <p className="mt-3 text-gray-700 whitespace-pre-wrap leading-relaxed">
+                        <p className="mt-3 text-gray-700 whitespace-pre-wrap leading-relaxed break-words">
                           {note.content}
                         </p>
+                        {note.reminders.length > 0 && (
+                          <div className="mt-3 space-y-1">
+                            <p className="font-medium text-gray-600 text-sm">
+                              Reminder:
+                            </p>
+                            {note.reminders.map((r) => (
+                              <p key={r.id} className="text-sm text-gray-500">
+                                {new Date(r.at).toLocaleString()}{" "}
+                                {/* convert ISO -> readable */}
+                              </p>
+                            ))}
+                          </div>
+                        )}
+                        {note.reminders?.length > 0 && (
+                          <p className="text-sm text-gray-500">
+                            Reminder status:{" "}
+                            {note.reminders[0].emailed
+                              ? "Email sent"
+                              : "Pending"}
+                          </p>
+                        )}
                       </div>
 
                       <div className="flex flex-col gap-3 ml-4">
@@ -245,5 +286,3 @@ export function Note() {
     </Layouts>
   );
 }
-
-export default Note;

@@ -4,13 +4,17 @@ export const getNotes = async (req, res) => {
   const userId = req.user.id
   try {
     const notes = await prisma.note.findMany({
-      include: {
-        user: {
-          select: { id: true, email: true, name: true }
-        }
+      where: {
+        userId: req.user.id // assumes you have user ID from auth middleware
       },
-      where: { userId }
+      orderBy: {
+        createdAt: 'desc'
+      },
+      include: {
+        reminders: true // include all reminders
+      }
     })
+    console.log(notes)
     res.json(notes)
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch notes' })
@@ -18,13 +22,28 @@ export const getNotes = async (req, res) => {
 }
 
 export const createNote = async (req, res) => {
-  const { title, content } = req.body
+  const { title, content, reminders } = req.body
   try {
     const newNote = await prisma.note.create({
-      data: { title, content, userId: req.user.id }
+      data: {
+        title,
+        content,
+        userId: req.user.id,
+        reminders: reminders?.length
+          ? {
+              create: reminders.map(r => ({
+                at: new Date(r.at)
+              }))
+            }
+          : undefined
+      },
+      include: {
+        reminders: true
+      }
     })
-    res.json(newNote)
+    res.status(201).json(newNote)
   } catch (error) {
+    console.error(error)
     res.status(500).json({ error: 'Failed to create note' })
   }
 }

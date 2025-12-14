@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import noteRoutes from './routes/noteRoutes.js'
 import userRoutes from './routes/userRoutes.js'
+import './jobs/reminderJob.js'
 
 const app = express()
 app.use(cors())

@@ -40,7 +40,7 @@ enum Gender {
 
 model Reminder {
 id        Int @id @default(autoincrement())
-note      Note @relation(fields: [noteId], references: [id])
+note      Note @relation(fields: [noteId], references: [id], onDelete: Cascade)
 noteId    Int
 at        DateTime // scheduled time
 emailed   Boolean @default(false)

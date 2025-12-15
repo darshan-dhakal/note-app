@@ -54,6 +54,7 @@ export default function Note() {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
+
       window.location.reload();
       setNotes((prev) =>
         prev.map((n) => (n.id === editNoteId ? { ...n, ...data } : n))
@@ -78,7 +79,11 @@ export default function Note() {
     window.scrollTo({ top: 0, behavior: "smooth" });
     setIsEditOpen(true);
     setEditNoteId(note.id);
-    reset({ title: note.title, content: note.content });
+    reset({
+      title: note.title,
+      content: note.content,
+      reminders: note.reminders,
+    });
   };
   const handleDelete = async (id) => {
     const previousNotes = [...notes];
@@ -110,7 +115,9 @@ export default function Note() {
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="title" className="font-medium text-gray-700" />
+                <Label htmlFor="title" className="font-medium text-gray-700">
+                  Title
+                </Label>
                 <TextInput
                   id="title"
                   placeholder="Enter a clear and descriptive title"
@@ -123,10 +130,9 @@ export default function Note() {
               </div>
 
               <div className="space-y-2">
-                <Label
-                  htmlFor="content"
-                  className="font-medium text-gray-700"
-                />
+                <Label htmlFor="content" className="font-medium text-gray-700">
+                  Content
+                </Label>
                 <Textarea
                   id="content"
                   rows={5}

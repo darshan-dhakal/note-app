@@ -44,7 +44,6 @@ export default function Note() {
         }
       );
       setNotes(res.data);
-      console.log(res.data);
     } catch (err) {
       alert(err.response?.data?.error || "Failed to fetch notes");
     }

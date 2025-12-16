@@ -36,7 +36,7 @@ export default function Note() {
   const fetchNotes = async () => {
     try {
       const res = await axios.get(
-        "${import.meta.env.VITE_API_BASE_URL}/api/notes/",
+        `${import.meta.env.VITE_API_BASE_URL}/api/notes/`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -71,7 +71,7 @@ export default function Note() {
       reset({ title: "", content: "" });
     } else {
       await axios.post(
-        "${import.meta.env.VITE_API_BASE_URL}/api/notes/",
+        `${import.meta.env.VITE_API_BASE_URL}/api/notes/`,
         data,
         {
           headers: {

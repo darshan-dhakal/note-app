@@ -28,7 +28,7 @@ export default function Signup() {
       }
 
       await axios.post(
-        "${import.meta.env.VITE_API_BASE_URL}/api/users/",
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/`,
         payload
       );
 

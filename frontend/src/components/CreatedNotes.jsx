@@ -14,7 +14,7 @@ export function CreatedNotes() {
   const fetchNotes = async (data) => {
     try {
       const res = await axios.get(
-        "${import.meta.env.VITE_API_BASE_URL}/api/notes/",
+        `${import.meta.env.VITE_API_BASE_URL}/api/notes/`,
         data,
         {
           headers: {

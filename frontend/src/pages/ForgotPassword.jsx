@@ -11,7 +11,7 @@ export default function ForgotPassword() {
 
     try {
       const res = await axios.post(
-        "${import.meta.env.VITE_API_BASE_URL}/api/users/forgot-password",
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/forgot-password`,
         { email }
       );
 

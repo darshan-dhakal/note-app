@@ -12,10 +12,13 @@ export function Login() {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:3000/api/users/login", {
-        email,
-        password,
-      });
+      const res = await axios.post(
+        "https://note-app-hs3i.onrender.com/api/users/login",
+        {
+          email,
+          password,
+        }
+      );
 
       const { accessToken, user } = res.data.data;
 

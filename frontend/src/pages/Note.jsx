@@ -35,11 +35,14 @@ export default function Note() {
 
   const fetchNotes = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/notes/", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      const res = await axios.get(
+        "https://note-app-hs3i.onrender.com/api/notes/",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
       setNotes(res.data);
       console.log(res.data);
     } catch (err) {
@@ -49,11 +52,15 @@ export default function Note() {
 
   const onSubmit = async (data) => {
     if (isEditOpen && editNoteId !== null) {
-      await axios.put(`http://localhost:3000/api/notes/${editNoteId}`, data, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      await axios.put(
+        `https://note-app-hs3i.onrender.com/api/notes/${editNoteId}`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
 
       window.location.reload();
       setNotes((prev) =>
@@ -64,7 +71,7 @@ export default function Note() {
       setEditNoteId(null);
       reset({ title: "", content: "" });
     } else {
-      await axios.post("http://localhost:3000/api/notes/", data, {
+      await axios.post("https://note-app-hs3i.onrender.com/api/notes/", data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -91,7 +98,7 @@ export default function Note() {
       setNotes((prev) => prev.filter((note) => note.id !== id));
       setConfirmDeleteId(null); // close card immediately
 
-      await axios.delete(`http://localhost:3000/api/notes/${id}`, {
+      await axios.delete(`https://note-app-hs3i.onrender.com/api/notes/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },

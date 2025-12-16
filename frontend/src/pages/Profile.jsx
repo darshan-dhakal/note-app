@@ -37,7 +37,7 @@ export function Profile() {
       const user = JSON.parse(localStorage.getItem("user"));
 
       const res = await axios.put(
-        "http://localhost:3000/api/users/avatar",
+        "https://note-app-hs3i.onrender.com/api/users/avatar",
         formData,
 
         {

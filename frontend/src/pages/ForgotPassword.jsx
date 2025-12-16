@@ -11,7 +11,7 @@ export default function ForgotPassword() {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/users/forgot-password",
+        "https://note-app-hs3i.onrender.com/api/users/forgot-password",
         { email }
       );
 

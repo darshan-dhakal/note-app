@@ -27,7 +27,10 @@ export default function Signup() {
         delete payload.gender;
       }
 
-      await axios.post("http://localhost:3000/api/users/", payload);
+      await axios.post(
+        "https://note-app-hs3i.onrender.com/api/users/",
+        payload
+      );
 
       alert("Account created successfully!");
       window.location.href = "/login";

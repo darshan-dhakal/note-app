@@ -17,7 +17,7 @@ export default function ResetPassword() {
     }
     try {
       const res = await axios.post(
-        `http://localhost:3000/api/users/reset-password/${token}`,
+        `https://note-app-hs3i.onrender.com/api/users/reset-password/${token}`,
         { password: password }
       );
       setSuccess(res.data.message);

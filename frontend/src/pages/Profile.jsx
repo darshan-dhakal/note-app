@@ -1,22 +1,65 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { FaUserCircle, FaCamera } from "react-icons/fa";
 import { AuthContext } from "../context/AuthContext";
 import { Layouts } from "../components/Layouts.jsx";
+import axios from "axios";
 
 export function Profile() {
-  const { user } = useContext(AuthContext);
-  const [preview, setPreview] = useState(user?.profilePic || null);
+  const { user, setUser } = useContext(AuthContext);
+  const [preview, setPreview] = useState(user?.avatarUrl || null);
   const [selectedFile, setSelectedFile] = useState(null);
-
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setPreview(user?.avatarUrl || null);
+  }, [user]);
   const handleFileSelect = (e) => {
     const file = e.target.files[0];
     if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Image must be under 5MB");
+      return;
+    }
     setSelectedFile(file);
     setPreview(URL.createObjectURL(file));
   };
 
   const handleUploadClick = () => {
     document.getElementById("profileUpload").click();
+  };
+  const handleSavePhoto = async () => {
+    if (!selectedFile) return;
+
+    try {
+      setLoading(true);
+
+      const formData = new FormData();
+      formData.append("avatar", selectedFile);
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      const res = await axios.put(
+        "http://localhost:3000/api/users/avatar",
+        formData,
+
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+
+      // Update preview with returned Cloudinary URL
+      setPreview(res.data.avatarUrl);
+      setUser((prev) => {
+        const updatedUser = { ...prev, avatarUrl: res.data.avatarUrl };
+        localStorage.setItem("user", JSON.stringify(updatedUser)); // persist change
+        return updatedUser;
+      });
+      setSelectedFile(null);
+    } catch (err) {
+      alert(err.response?.data?.error || "Failed to upload image");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -41,7 +84,7 @@ export function Profile() {
             {/* User Summary */}
             <div className="flex-1">
               <h1 className="text-4xl font-semibold">{user?.name}</h1>
-              <p className="text-gray-500 text-lg">@{user?.username}</p>
+              {/* <p className="text-gray-500 text-lg">@{user?.username}</p> */}
               <p className="text-gray-500 mt-1">{user?.email}</p>
             </div>
           </div>
@@ -105,8 +148,12 @@ export function Profile() {
             </div>
 
             {selectedFile && (
-              <button className="mt-5 bg-blue-600 px-5 py-2 rounded-xl text-white shadow hover:bg-blue-700 transition">
-                Save Photo
+              <button
+                onClick={handleSavePhoto}
+                disabled={loading}
+                className="mt-5 bg-blue-600 px-5 py-2 rounded-xl text-white shadow hover:bg-blue-700 transition disabled:opacity-60"
+              >
+                {loading ? "Uploading..." : "Save Photo"}
               </button>
             )}
           </div>

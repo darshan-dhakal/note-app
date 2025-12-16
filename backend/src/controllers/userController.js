@@ -123,5 +123,31 @@ export const UserController = {
     } catch (error) {
       res.status(500).json({ error: 'Something went wrong' })
     }
+  },
+  uploadAvatar: async (req, res) => {
+    // console.log(req)
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: 'No image uploaded' })
+      }
+
+      const avatarUrl = req.file.secure_url
+      console.log('req.file:', req.file)
+      // console.log(req.user)
+      const user = await prisma.user.update({
+        where: { id: req.user.id },
+        data: { avatarUrl },
+        select: {
+          id: true,
+          email: true,
+          avatarUrl: true
+        }
+      })
+
+      res.json(user)
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ error: 'server error while uploading avatar' })
+    }
   }
 }

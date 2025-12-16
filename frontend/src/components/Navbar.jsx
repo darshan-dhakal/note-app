@@ -36,12 +36,15 @@ export default function Component() {
             inline
             arrowIcon={false}
             label={
-              // <Avatar
-              //   rounded
-              //   alt="User avatar"
-              //   img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-              // />
-              <FaUserCircle className="w-8 h-8 text-gray-300" />
+              user?.avatarUrl ? (
+                <img
+                  src={user.avatarUrl}
+                  alt="User avatar"
+                  className="w-8 h-8 rounded-full object-cover"
+                />
+              ) : (
+                <FaUserCircle className="w-8 h-8 text-gray-300" />
+              )
             }
           >
             <DropdownHeader>

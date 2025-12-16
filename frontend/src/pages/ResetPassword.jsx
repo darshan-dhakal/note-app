@@ -17,7 +17,9 @@ export default function ResetPassword() {
     }
     try {
       const res = await axios.post(
-        `https://note-app-hs3i.onrender.com/api/users/reset-password/${token}`,
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/users/reset-password/${token}`,
         { password: password }
       );
       setSuccess(res.data.message);

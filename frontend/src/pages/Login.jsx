@@ -13,7 +13,7 @@ export function Login() {
 
     try {
       const res = await axios.post(
-        "https://note-app-hs3i.onrender.com/api/users/login",
+        "${import.meta.env.VITE_API_BASE_URL}/api/users/login",
         {
           email,
           password,

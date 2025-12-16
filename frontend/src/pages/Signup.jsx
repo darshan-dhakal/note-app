@@ -28,7 +28,7 @@ export default function Signup() {
       }
 
       await axios.post(
-        "https://note-app-hs3i.onrender.com/api/users/",
+        "${import.meta.env.VITE_API_BASE_URL}/api/users/",
         payload
       );
 

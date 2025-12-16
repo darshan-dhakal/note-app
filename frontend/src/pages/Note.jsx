@@ -36,7 +36,7 @@ export default function Note() {
   const fetchNotes = async () => {
     try {
       const res = await axios.get(
-        "https://note-app-hs3i.onrender.com/api/notes/",
+        "${import.meta.env.VITE_API_BASE_URL}/api/notes/",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -52,7 +52,7 @@ export default function Note() {
   const onSubmit = async (data) => {
     if (isEditOpen && editNoteId !== null) {
       await axios.put(
-        `https://note-app-hs3i.onrender.com/api/notes/${editNoteId}`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/notes/${editNoteId}`,
         data,
         {
           headers: {
@@ -70,11 +70,15 @@ export default function Note() {
       setEditNoteId(null);
       reset({ title: "", content: "" });
     } else {
-      await axios.post("https://note-app-hs3i.onrender.com/api/notes/", data, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      await axios.post(
+        "${import.meta.env.VITE_API_BASE_URL}/api/notes/",
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
 
       window.location.reload();
       reset({ title: "", content: "" });
@@ -97,11 +101,14 @@ export default function Note() {
       setNotes((prev) => prev.filter((note) => note.id !== id));
       setConfirmDeleteId(null); // close card immediately
 
-      await axios.delete(`https://note-app-hs3i.onrender.com/api/notes/${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      await axios.delete(
+        `${import.meta.env.VITE_API_BASE_URL}/api/notes/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
     } catch (err) {
       alert(err.response?.data?.error || "Failed to delete note");
       setNotes(previousNotes);

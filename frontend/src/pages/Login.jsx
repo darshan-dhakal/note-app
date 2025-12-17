@@ -16,7 +16,7 @@ export function Login() {
 
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/users/login`,
+        `${import.meta.env.VITE_BASE_URL}/api/users/login`,
         {
           email,
           password,
@@ -32,19 +32,12 @@ export function Login() {
     } catch (err) {
       setError(err.response?.data?.error || "Login failed");
     } finally {
-      setLoading(false);
+      setLoading(false); // NEW
     }
   };
 
   return (
     <Layouts>
-      {/* Loading Spinner Overlay */}
-      {loading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20">
-          <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-gray-800"></div>
-        </div>
-      )}
-
       <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
         <Card className="w-full max-w-md shadow-lg">
           <h2 className="text-3xl font-bold text-center mb-6">Login</h2>
@@ -66,6 +59,7 @@ export function Login() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                disabled={loading} // OPTIONAL but recommended
               />
             </div>
 
@@ -79,6 +73,7 @@ export function Login() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                disabled={loading} // OPTIONAL but recommended
               />
             </div>
 
@@ -100,8 +95,14 @@ export function Login() {
             </div>
 
             {/* Submit */}
-            <Button type="submit" color="dark" className="w-full">
-              Login
+            <Button
+              type="submit"
+              color="dark"
+              className="w-full"
+              disabled={loading}
+              isProcessing={loading} // Flowbite built-in loading indicator
+            >
+              {loading ? "Logging in..." : "Login"}
             </Button>
           </form>
         </Card>

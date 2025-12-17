@@ -37,7 +37,7 @@ export function Profile() {
       const user = JSON.parse(localStorage.getItem("user"));
 
       const res = await axios.put(
-        "http://localhost:3000/api/users/avatar",
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/avatar`,
         formData,
 
         {

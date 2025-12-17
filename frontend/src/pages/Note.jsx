@@ -35,13 +35,15 @@ export default function Note() {
 
   const fetchNotes = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/notes/", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL}/api/notes/`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
       setNotes(res.data);
-      console.log(res.data);
     } catch (err) {
       alert(err.response?.data?.error || "Failed to fetch notes");
     }
@@ -49,11 +51,15 @@ export default function Note() {
 
   const onSubmit = async (data) => {
     if (isEditOpen && editNoteId !== null) {
-      await axios.put(`http://localhost:3000/api/notes/${editNoteId}`, data, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      await axios.put(
+        `${import.meta.env.VITE_API_BASE_URL}/api/notes/${editNoteId}`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
 
       window.location.reload();
       setNotes((prev) =>
@@ -64,11 +70,15 @@ export default function Note() {
       setEditNoteId(null);
       reset({ title: "", content: "" });
     } else {
-      await axios.post("http://localhost:3000/api/notes/", data, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/notes/`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
 
       window.location.reload();
       reset({ title: "", content: "" });
@@ -91,11 +101,14 @@ export default function Note() {
       setNotes((prev) => prev.filter((note) => note.id !== id));
       setConfirmDeleteId(null); // close card immediately
 
-      await axios.delete(`http://localhost:3000/api/notes/${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      await axios.delete(
+        `${import.meta.env.VITE_API_BASE_URL}/api/notes/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
     } catch (err) {
       alert(err.response?.data?.error || "Failed to delete note");
       setNotes(previousNotes);

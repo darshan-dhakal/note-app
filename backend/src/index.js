@@ -5,7 +5,13 @@ import userRoutes from './routes/userRoutes.js'
 import './jobs/reminderJob.js'
 
 const app = express()
-app.use(cors())
+
+app.use(
+  cors({
+    origin: ['https://note-app-9q2y.vercel.app', 'http://localhost:5173'],
+    credentials: true
+  })
+)
 app.use(express.json())
 
 app.use('/api/notes', noteRoutes)

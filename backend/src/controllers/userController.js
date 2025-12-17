@@ -56,7 +56,9 @@ export const UserController = {
       })
 
       // Create password reset link
-      const resetLink = `http://localhost:5173/reset-password/${resetToken}`
+      const resetLink = `${
+        import.meta.env.FRONTEND_VERCEL_URL
+      }/reset-password/${resetToken}`
 
       // Setup email sender
       const transporter = nodemailer.createTransport({

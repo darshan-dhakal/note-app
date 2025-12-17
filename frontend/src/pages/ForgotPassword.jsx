@@ -80,7 +80,9 @@ export default function ForgotPassword() {
             </button>
 
             {error && (
-              <p style={{ color: "red", marginTop: "10px" }}>{error}</p>
+              <p style={{ color: "red", marginTop: "10px" }}>
+                {error?.message || error}
+              </p>
             )}
           </form>
         </div>

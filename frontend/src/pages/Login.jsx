@@ -7,9 +7,12 @@ export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
 
     try {
       const res = await axios.post(
@@ -28,6 +31,8 @@ export function Login() {
       window.location.href = "/note";
     } catch (err) {
       setError(err.response?.data?.error || "Login failed");
+    } finally {
+      setLoading(false); // NEW
     }
   };
 
@@ -54,6 +59,7 @@ export function Login() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                disabled={loading} // OPTIONAL but recommended
               />
             </div>
 
@@ -67,6 +73,7 @@ export function Login() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                disabled={loading} // OPTIONAL but recommended
               />
             </div>
 
@@ -88,8 +95,14 @@ export function Login() {
             </div>
 
             {/* Submit */}
-            <Button type="submit" color="dark" className="w-full">
-              Login
+            <Button
+              type="submit"
+              color="dark"
+              className="w-full"
+              disabled={loading}
+              isProcessing={loading} // Flowbite built-in loading indicator
+            >
+              {loading ? "Logging in..." : "Login"}
             </Button>
           </form>
         </Card>

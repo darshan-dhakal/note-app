@@ -4,8 +4,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { userSchema } from "../schemas/userSchema";
 import Layouts from "../components/Layouts";
-import { Label, TextInput, Card, Button, Select } from "flowbite-react";
-import { HiMail } from "react-icons/hi";
+import { Label, TextInput, Card, Button, Select, Toast } from "flowbite-react";
+import { HiMail, HiCheck } from "react-icons/hi";
 
 export default function Signup() {
   const {
@@ -18,8 +18,11 @@ export default function Signup() {
   });
 
   const watchAge = watch("age");
+  const [loading, setLoading] = useState(false);
+  const [showToast, setShowToast] = useState(false); // NEW
 
   const onSubmit = async (data) => {
+    setLoading(true);
     try {
       const { confirmPassword, ...payload } = data;
 
@@ -32,15 +35,41 @@ export default function Signup() {
         payload
       );
 
-      alert("Account created successfully!");
-      window.location.href = "/login";
+      setShowToast(true); // SHOW TOAST
+
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 2000);
     } catch (err) {
       alert(err.response?.data?.error || "Signup failed");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <Layouts>
+      {/* Loading Spinner */}
+      {loading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20">
+          <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-gray-800"></div>
+        </div>
+      )}
+
+      {/* Success Toast */}
+      {showToast && (
+        <div className="fixed top-5 right-5 z-50">
+          <Toast>
+            <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-green-100 text-green-500">
+              <HiCheck className="h-5 w-5" />
+            </div>
+            <div className="ml-3 text-sm font-normal">
+              Account created successfully!
+            </div>
+          </Toast>
+        </div>
+      )}
+
       <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
         <Card className="w-full max-w-md shadow-lg">
           <h2 className="text-3xl font-bold text-center mb-6">

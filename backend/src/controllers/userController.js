@@ -56,14 +56,12 @@ export const UserController = {
       })
 
       // Create password reset link
-      const resetLink = `${
-        import.meta.env.FRONTEND_VERCEL_URL
-      }/reset-password/${resetToken}`
+      const resetLink = `${process.env.FRONTEND_VERCEL_URL}/reset-password/${resetToken}`
 
       // Setup email sender
       const transporter = nodemailer.createTransport({
         host: process.env.EMAIL_HOST,
-        port: process.env.EMAIL_PORT,
+        port: Number(process.env.EMAIL_PORT),
         secure: process.env.EMAIL_SECURE === 'true',
         auth: {
           user: process.env.EMAIL_USER,
@@ -86,7 +84,7 @@ export const UserController = {
 
       res.json({ message: 'Reset link sent to email' })
     } catch (error) {
-      res.status(500).json({ error })
+      res.status(500).json({ message: 'Failed to send reset password link.' })
     }
   },
   resetPassword: async (req, res) => {

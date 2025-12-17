@@ -68,9 +68,7 @@ export const UserController = {
           pass: process.env.EMAIL_PASS
         }
       })
-
-      // Send email
-      await transporter.sendMail({
+      const mailData = {
         from: process.env.EMAIL_USER,
         to: email,
         subject: 'Reset Your Password',
@@ -80,7 +78,24 @@ export const UserController = {
         <a href="${resetLink}">${resetLink}</a>
         <p>This link is valid for 10 minutes.</p>
       `
-      })
+      }
+      // Send email
+      await new Promise((resolve, reject) =>
+        transporter.sendMail(mailData, (err, info) =>
+          err ? reject(err) : resolve(info)
+        )
+      )
+      // await  transporter.sendMail({
+      //   from: process.env.EMAIL_USER,
+      //   to: email,
+      //   subject: 'Reset Your Password',
+      //   html: `
+      //   <h2>Password Reset Request</h2>
+      //   <p>Click the link below to reset your password:</p>
+      //   <a href="${resetLink}">${resetLink}</a>
+      //   <p>This link is valid for 10 minutes.</p>
+      // `
+      // })
 
       res.json({ message: 'Reset link sent to email' })
     } catch (error) {

@@ -14,7 +14,7 @@ export const getNotes = async (req, res) => {
         reminders: true // include all reminders
       }
     })
-    console.log(notes)
+
     res.json(notes)
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch notes' })
@@ -48,19 +48,6 @@ export const createNote = async (req, res) => {
   }
 }
 
-// export const updateNote = async (req, res) => {
-//   const { id } = req.params
-//   const { title, content, reminders } = req.body
-//   try {
-//     const updatedNote = await prisma.note.update({
-//       where: { id: Number(id) },
-//       data: { title, content, reminders }
-//     })
-//     res.json(updatedNote)
-//   } catch (error) {
-//     res.status(500).json({ error: 'Failed to update note' })
-//   }
-// }
 export const updateNote = async (req, res) => {
   const noteId = Number(req.params.id)
   const { title, content, reminders } = req.body

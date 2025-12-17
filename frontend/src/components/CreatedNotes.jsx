@@ -13,11 +13,15 @@ export function CreatedNotes() {
 
   const fetchNotes = async (data) => {
     try {
-      const res = await axios.get("http://localhost:3000/api/notes/", data, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL}/api/notes/`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
 
       setNotes(res.data);
     } catch (err) {

@@ -30,7 +30,10 @@ export default function Signup() {
         delete payload.gender;
       }
 
-      await axios.post("http://localhost:3000/api/users/", payload);
+      await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/`,
+        payload
+      );
 
       setShowToast(true); // SHOW TOAST
 

@@ -56,7 +56,9 @@ export const UserController = {
       })
 
       // Create password reset link
-      const resetLink = `http://localhost:5173/reset-password/${resetToken}`
+      const resetLink = `${
+        import.meta.env.FRONTEND_VERCEL_URL
+      }/reset-password/${resetToken}`
 
       // Setup email sender
       const transporter = nodemailer.createTransport({
@@ -125,15 +127,13 @@ export const UserController = {
     }
   },
   uploadAvatar: async (req, res) => {
-    // console.log(req)
     try {
       if (!req.file) {
         return res.status(400).json({ error: 'No image uploaded' })
       }
 
       const avatarUrl = req.file.secure_url
-      console.log('req.file:', req.file)
-      // console.log(req.user)
+
       const user = await prisma.user.update({
         where: { id: req.user.id },
         data: { avatarUrl },

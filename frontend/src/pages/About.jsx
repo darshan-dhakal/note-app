@@ -1,113 +1,107 @@
 import Layouts from "../components/Layouts";
-import { Card, Button } from "flowbite-react";
+import { Card } from "flowbite-react";
 import {
+  HiOutlineLightBulb,
+  HiOutlineShieldCheck,
   HiOutlineSparkles,
-  HiOutlineCheckCircle,
-  HiOutlinePencilAlt,
+  HiOutlineUsers,
 } from "react-icons/hi";
 
 export function About() {
+  const values = [
+    {
+      title: "Simplicity First",
+      icon: HiOutlineLightBulb,
+      description:
+        "We believe note-taking should be simple, fast, and distraction-free so you can focus on what matters.",
+    },
+    {
+      title: "Security & Privacy",
+      icon: HiOutlineShieldCheck,
+      description:
+        "Your notes are private. We use secure authentication and modern best practices to protect your data.",
+    },
+    {
+      title: "Modern Experience",
+      icon: HiOutlineSparkles,
+      description:
+        "A clean UI, smooth interactions, and thoughtful design that feels good to use every day.",
+    },
+    {
+      title: "User-Centered Design",
+      icon: HiOutlineUsers,
+      description:
+        "Every feature is built with real users in mind — practical, useful, and easy to understand.",
+    },
+  ];
+
   return (
     <Layouts>
-      <div className="min-h-screen bg-gray-50 px-6 py-12">
-        <div className="max-w-5xl mx-auto space-y-16">
-          {/* Header Section */}
-          <div className="text-center space-y-4">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-              About the Note App
-            </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-              A simple, fast, and secure way to capture your thoughts, ideas,
-              and important notes. Designed to help you stay organized and
-              productive every day.
-            </p>
-          </div>
+      <div className="max-w-6xl mx-auto px-6 py-12">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold mb-4">About Us</h1>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            A modern note-taking application designed to help you capture,
+            organize, and remember your ideas effortlessly.
+          </p>
+        </div>
 
-          {/* Main Highlight Card */}
-          <Card className="p-10 bg-white shadow-xl border border-gray-200 rounded-2xl">
-            <div className="flex flex-col md:flex-row items-center md:items-start gap-10">
-              <div className="flex-shrink-0 h-24 w-24 bg-blue-100 rounded-full flex items-center justify-center">
-                <HiOutlineSparkles className="h-12 w-12 text-blue-600" />
+        {/* Mission Section */}
+        <div className="mb-16 text-center max-w-3xl mx-auto">
+          <h2 className="text-2xl font-semibold mb-4">Our Mission</h2>
+          <p className="text-gray-600 leading-relaxed">
+            Our mission is to provide a secure, intuitive, and reliable note
+            management platform that helps individuals stay productive and
+            organized. Whether it’s daily tasks, important ideas, or long-term
+            goals, our app ensures your notes are always accessible and safe.
+          </p>
+        </div>
+
+        {/* Values Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-16">
+          {values.map((value, index) => (
+            <Card key={index} className="hover:shadow-lg transition">
+              <div className="flex gap-4">
+                <div className="bg-black text-white p-3 rounded-xl h-fit">
+                  <value.icon className="h-6 w-6" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-1">{value.title}</h3>
+                  <p className="text-gray-600 text-sm">{value.description}</p>
+                </div>
               </div>
+            </Card>
+          ))}
+        </div>
 
-              <div className="space-y-4">
-                <h2 className="text-3xl font-semibold text-gray-800">
-                  Designed for Simplicity and Speed
-                </h2>
-                <p className="text-gray-600 text-lg leading-relaxed">
-                  The Note App is built to streamline your writing workflow. No
-                  distractions, no unnecessary features. Just clean and
-                  intuitive note-taking tailored for students, developers,
-                  creators, and anyone who wants to stay organized.
-                </p>
-              </div>
-            </div>
-          </Card>
+        {/* Tech Stack / Built With */}
+        <div className="text-center mb-16">
+          <h2 className="text-2xl font-semibold mb-4">
+            Built With Modern Tech
+          </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            This application is built using modern web technologies including
+            React, Node.js, PostgreSQL, and secure REST APIs to ensure
+            performance, scalability, and reliability.
+          </p>
+        </div>
 
-          {/* Features Section */}
-          <div className="space-y-8">
-            <h2 classname="text-2xl font-bold text-gray-900 text-center">
-              Powerful Features with Minimal Effort
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Card className="p-6 text-center shadow-lg rounded-xl border border-gray-200">
-                <HiOutlinePencilAlt className="h-10 w-10 mx-auto text-blue-600 mb-4" />
-                <h3 className="text-xl font-semibold text-gray-800">
-                  Easy Note Editing
-                </h3>
-                <p className="text-gray-600 mt-2">
-                  Create, edit, and update notes instantly with a clean user
-                  interface.
-                </p>
-              </Card>
-
-              <Card className="p-6 text-center shadow-lg rounded-xl border border-gray-200">
-                <HiOutlineCheckCircle className="h-10 w-10 mx-auto text-green-600 mb-4" />
-                <h3 className="text-xl font-semibold text-gray-800">
-                  Organized Layout
-                </h3>
-                <p className="text-gray-600 mt-2">
-                  Your notes are neatly displayed so you can find what you need
-                  quickly.
-                </p>
-              </Card>
-
-              <Card className="p-6 text-center shadow-lg rounded-xl border border-gray-200">
-                <HiOutlineSparkles className="h-10 w-10 mx-auto text-purple-600 mb-4" />
-                <h3 className="text-xl font-semibold text-gray-800">
-                  User-friendly Experience
-                </h3>
-                <p className="text-gray-600 mt-2">
-                  A fast and intuitive UI that feels smooth whether you're on
-                  desktop or mobile.
-                </p>
-              </Card>
-            </div>
-          </div>
-
-          {/* Mission / Closing Section */}
-          <Card className="p-10 bg-gradient-to-br from-white to-gray-100 rounded-2xl shadow-lg border border-gray-200">
-            <div className="space-y-6 text-center">
-              <h2 className="text-3xl font-semibold text-gray-900">
-                Our Mission
-              </h2>
-              <p className="text-gray-700 text-lg max-w-3xl mx-auto leading-relaxed">
-                We believe that productivity tools should be simple, elegant,
-                and enjoyable to use. The Note App focuses on delivering a
-                seamless experience that empowers you to capture your ideas and
-                stay organized without friction. Whether it's planning your day,
-                storing important content, or outlining projects, this app is
-                built to support your workflow.
-              </p>
-
-              <Button size="lg" className="mx-auto px-10">
-                Start Writing Now
-              </Button>
-            </div>
-          </Card>
+        {/* Call to Action */}
+        <div className="text-center">
+          <h2 className="text-2xl font-semibold mb-3">Ready to Get Started?</h2>
+          <p className="text-gray-600 mb-6">
+            Create an account and start organizing your notes today.
+          </p>
+          <a
+            href="/login"
+            className="inline-block bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition"
+          >
+            Join Now
+          </a>
         </div>
       </div>
     </Layouts>
   );
 }
+export default About;

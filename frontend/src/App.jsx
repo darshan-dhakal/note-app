@@ -9,6 +9,8 @@ import Note from "./pages/Note.jsx";
 import { ProtectedRoutes } from "./components/ProtectedRoutes.jsx";
 import { About } from "./pages/About.jsx";
 import { Profile } from "./pages/Profile.jsx";
+import Services from "./pages/Service.jsx";
+import Contact from "./pages/Contact.jsx";
 function App() {
   return (
     <>
@@ -30,7 +32,16 @@ function App() {
           {/* <Route path="/dashboard" element={<Dashboard />} /> */}
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoutes>
+                <Profile />
+              </ProtectedRoutes>
+            }
+          />
+          <Route path="/services" element={<Services />} />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
       </Router>
     </>

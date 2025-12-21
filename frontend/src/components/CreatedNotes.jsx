@@ -13,6 +13,20 @@ export function CreatedNotes({
 
   const toggleOpen = () => setIsOpen((prev) => !prev);
 
+  const formatReminderText = (reminderDate) => {
+    const date = new Date(reminderDate);
+    const timeStr = date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    const dateStr = date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+    return `Reminder is set at: ${timeStr} on ${dateStr}`;
+  };
+
   return (
     <>
       <Card
@@ -27,6 +41,11 @@ export function CreatedNotes({
             {/* <HiChevronDown className="h-5 w-5" /> */}
           </span>
         </div>
+        {note.reminders && note.reminders.length > 0 && (
+          <p className="mt-2 text-sm text-blue-600 font-medium">
+            {formatReminderText(note.reminders[0].at)}
+          </p>
+        )}
       </Card>
 
       {isOpen && (

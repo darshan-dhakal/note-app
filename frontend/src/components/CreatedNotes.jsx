@@ -1,41 +1,124 @@
-import { Card } from "flowbite-react";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { AuthContext } from "../context/AuthContext";
+import { useState } from "react";
+import { Card, Button } from "flowbite-react";
+import { HiOutlinePencil, HiTrash, HiChevronDown, HiX } from "react-icons/hi";
 
-export function CreatedNotes() {
-  const [notes, setNotes] = useState([]);
-  // const { user } = useContext(AuthContext);
+export function CreatedNotes({
+  note,
+  onEdit,
+  onDelete,
+  confirmDeleteId,
+  setConfirmDeleteId,
+}) {
+  const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    fetchNotes();
-  }, []);
+  const toggleOpen = () => setIsOpen((prev) => !prev);
 
-  const fetchNotes = async (data) => {
-    try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/notes/`,
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      );
-
-      setNotes(res.data);
-    } catch (err) {
-      alert(err.response?.data?.error || "Failed to fetch notes");
-    }
-  };
   return (
-    <Card href="#" className="max-w-sm">
-      <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-        {notes?.title}
-      </h5>
-      <p className="font-normal text-gray-700 dark:text-gray-400">
-        {notes?.content}
-      </p>
-    </Card>
+    <>
+      <Card
+        className="p-5 rounded-xl shadow-lg border border-gray-200 bg-white hover:shadow-xl transition-shadow cursor-pointer"
+        onClick={toggleOpen}
+      >
+        <div className="flex items-center justify-between">
+          <h3 className="text-xl font-semibold text-gray-900 line-clamp-1">
+            {note.title}
+          </h3>
+          <span className="text-gray-500">
+            {/* <HiChevronDown className="h-5 w-5" /> */}
+          </span>
+        </div>
+      </Card>
+
+      {isOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <Card className="shadow-2xl rounded-2xl p-8 border border-gray-200 bg-white w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-start mb-6">
+              <h3 className="text-2xl font-bold text-gray-900">{note.title}</h3>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="p-2 hover:bg-gray-100 rounded-full transition"
+              >
+                <HiX className="h-6 w-6 text-gray-600" />
+              </button>
+            </div>
+
+            <p className="text-gray-700 whitespace-pre-wrap leading-relaxed break-words mb-4">
+              {note.content}
+            </p>
+
+            {note.reminders && note.reminders.length > 0 && (
+              <div className="mb-6 p-4 bg-gray-50 rounded-lg space-y-2">
+                <p className="font-semibold text-gray-800 text-sm">
+                  Reminders:
+                </p>
+                {note.reminders.map((r) => (
+                  <div key={r.id} className="text-sm">
+                    <p className="text-gray-600">
+                      {new Date(r.at).toLocaleString()}
+                    </p>
+                    <p className="text-gray-500 text-xs">
+                      Status: {r.emailed ? "Email sent" : "Pending"}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="flex gap-3 pt-4 border-t">
+              <Button
+                color="light"
+                className="shadow-sm hover:bg-gray-100 flex-1"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsOpen(false);
+                  onEdit(note);
+                }}
+              >
+                <HiOutlinePencil className="h-5 w-5 mr-2" />
+                Edit
+              </Button>
+
+              <Button
+                color="failure"
+                className="shadow-sm flex-1"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setConfirmDeleteId(note.id);
+                }}
+              >
+                <HiTrash className="h-5 w-5 mr-2" />
+                Delete
+              </Button>
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {confirmDeleteId === note.id && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md">
+            <h3 className="text-xl font-semibold mb-3">Confirm Deletion</h3>
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to delete this note? This action is
+              permanent and cannot be undone.
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                className="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-50"
+                onClick={() => setConfirmDeleteId(null)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700"
+                onClick={() => onDelete(confirmDeleteId)}
+              >
+                Yes, Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

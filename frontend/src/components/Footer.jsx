@@ -11,9 +11,9 @@ export function Component() {
       <FooterCopyright href="#" by="Darshan Dhakal™" year={2025} />
       <FooterLinkGroup>
         <FooterLink href="/about">About</FooterLink>
-        <FooterLink href="#">Privacy Policy</FooterLink>
-        <FooterLink href="#">Licensing</FooterLink>
-        <FooterLink href="#">Contact</FooterLink>
+        <FooterLink href="/privacy-policy">Privacy Policy</FooterLink>
+        <FooterLink href="/licensing">Licensing</FooterLink>
+        <FooterLink href="/contact">Contact</FooterLink>
       </FooterLinkGroup>
     </Footer>
   );

@@ -11,6 +11,7 @@ import { About } from "./pages/About.jsx";
 import { Profile } from "./pages/Profile.jsx";
 import Services from "./pages/Service.jsx";
 import Contact from "./pages/Contact.jsx";
+import NotFound from "./pages/NotFound.jsx";
 function App() {
   return (
     <>
@@ -42,6 +43,7 @@ function App() {
           />
           <Route path="/services" element={<Services />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </>

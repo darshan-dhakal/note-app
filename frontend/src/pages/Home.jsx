@@ -15,11 +15,12 @@ export function Home() {
         {/* Hero Section */}
         <div className="text-center py-10">
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 mb-4">
-            Welcome to Your Note Manager
+            Welcome to Notify
           </h1>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            Create, organize, and manage your personal notes with a clean user
-            interface powered by React, Vite, and Flowbite components.
+            Create, organize, and manage your personal notes. Set reminders for
+            your work and todos. Created for you with a clean user interface
+            powered by React, Vite, and Flowbite components.
           </p>
 
           {/* Call-to-action Buttons */}

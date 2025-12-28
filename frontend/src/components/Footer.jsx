@@ -10,7 +10,7 @@ export function Component() {
     <Footer className="" container>
       <FooterCopyright href="#" by="Darshan Dhakal™" year={2025} />
       <FooterLinkGroup>
-        <FooterLink href="#">About</FooterLink>
+        <FooterLink href="/about">About</FooterLink>
         <FooterLink href="#">Privacy Policy</FooterLink>
         <FooterLink href="#">Licensing</FooterLink>
         <FooterLink href="#">Contact</FooterLink>

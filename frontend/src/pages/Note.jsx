@@ -129,14 +129,14 @@ export default function Note() {
 
   return (
     <Layouts>
-      <div className="min-h-screen py-10 px-4 bg-gray-50">
+      <div className="min-h-screen py-10 px-4 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         <div className="max-w-5xl mx-auto">
           {/* Header with Plus Button */}
           <div className="flex justify-between items-center mb-10">
-            <h1 className="text-4xl font-bold text-gray-900">Your Notes</h1>
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">Your Notes</h1>
             <button
               onClick={handleOpenCreateModal}
-              className="flex items-center gap-2 bg-black hover:bg-gray-800 text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition"
+              className="flex items-center gap-2 bg-black dark:bg-gray-700 hover:bg-gray-800 dark:hover:bg-gray-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition"
             >
               <HiOutlinePlus className="h-6 w-6" />
               New Note
@@ -145,9 +145,9 @@ export default function Note() {
 
           {/* Notes Grid */}
           {notes.length === 0 ? (
-            <Card className="p-6 text-center shadow-md bg-white rounded-xl border border-gray-200">
-              <p className="text-gray-500 text-lg">You have no notes yet.</p>
-              <p className="text-gray-400 mt-2">
+            <Card className="p-6 text-center shadow-md bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+              <p className="text-gray-500 dark:text-gray-400 text-lg">You have no notes yet.</p>
+              <p className="text-gray-400 dark:text-gray-500 mt-2">
                 Create your first note by clicking the "New Note" button.
               </p>
             </Card>
@@ -170,22 +170,22 @@ export default function Note() {
         {/* Create/Edit Modal */}
         {isModalOpen && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <Card className="shadow-2xl rounded-2xl p-8 border border-gray-200 bg-white w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <Card className="shadow-2xl rounded-2xl p-8 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-3xl font-bold tracking-tight text-gray-800">
+                <h2 className="text-3xl font-bold tracking-tight text-gray-800 dark:text-white">
                   {editNoteId ? "Edit Note" : "Create a New Note"}
                 </h2>
                 <button
                   onClick={handleCloseModal}
-                  className="p-2 hover:bg-gray-100 rounded-full transition"
+                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition"
                 >
-                  <HiX className="h-6 w-6 text-gray-600" />
+                  <HiX className="h-6 w-6 text-gray-600 dark:text-gray-400" />
                 </button>
               </div>
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="title" className="font-medium text-gray-700">
+                  <Label htmlFor="title" className="font-medium text-gray-700 dark:text-gray-300">
                     Title
                   </Label>
                   <TextInput
@@ -204,7 +204,7 @@ export default function Note() {
                 <div className="space-y-2">
                   <Label
                     htmlFor="content"
-                    className="font-medium text-gray-700"
+                    className="font-medium text-gray-700 dark:text-gray-300"
                   >
                     Content
                   </Label>

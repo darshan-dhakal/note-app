@@ -11,25 +11,36 @@ import {
   NavbarLink,
   NavbarToggle,
 } from "flowbite-react";
-import { FaUserCircle } from "react-icons/fa";
+import { FaUserCircle, FaMoon, FaSun } from "react-icons/fa";
 
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext.jsx";
+import { DarkModeContext } from "../context/DarkModeContext.jsx";
 
 export default function Component() {
   const { isLoggedIn, logout, user } = useContext(AuthContext);
+  const { isDarkMode, toggleDarkMode } = useContext(DarkModeContext);
 
   return (
-    <Navbar fluid rounded className="shadow-sm py-3">
+    <Navbar fluid rounded className="shadow-sm py-3 bg-white dark:bg-gray-900 transition-colors duration-300">
       {/* Brand */}
       <NavbarBrand href="/">
-        <span className="self-center whitespace-nowrap text-2xl font-bold text-gray-900">
+        <span className="self-center whitespace-nowrap text-2xl font-bold text-gray-900 dark:text-white">
           Notify
         </span>
       </NavbarBrand>
 
       {/* Right-side */}
       <div className="flex md:order-2 items-center gap-3">
+        {/* Dark Mode Toggle */}
+        {/* <button
+          onClick={toggleDarkMode}
+          className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-yellow-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+        >
+          {isDarkMode ? <FaSun size={18} /> : <FaMoon size={18} />}
+        </button> */}
+
         {/* Only show user dropdown if logged in */}
         {isLoggedIn && (
           <Dropdown
@@ -51,7 +62,7 @@ export default function Component() {
               <span className="block text-sm font-semibold">
                 {user?.name || "User"}
               </span>
-              <span className="block truncate text-sm text-gray-600">
+              <span className="block truncate text-sm text-gray-600 dark:text-gray-400">
                 {user?.email}
               </span>
             </DropdownHeader>

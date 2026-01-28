@@ -12,40 +12,44 @@ import { Profile } from "./pages/Profile.jsx";
 import Services from "./pages/Service.jsx";
 import Contact from "./pages/Contact.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import DarkModeProvider from "./context/DarkModeContext.jsx";
+
 function App() {
   return (
     <>
-      <Router>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password/:token" element={<ResetPassword />} />
-          <Route
-            path="/note"
-            element={
-              <ProtectedRoutes>
-                <Note />
-              </ProtectedRoutes>
-            }
-          />
+      <DarkModeProvider>
+        <Router>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password/:token" element={<ResetPassword />} />
+            <Route
+              path="/note"
+              element={
+                <ProtectedRoutes>
+                  <Note />
+                </ProtectedRoutes>
+              }
+            />
 
-          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoutes>
-                <Profile />
-              </ProtectedRoutes>
-            }
-          />
-          <Route path="/services" element={<Services />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Router>
+            {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoutes>
+                  <Profile />
+                </ProtectedRoutes>
+              }
+            />
+            <Route path="/services" element={<Services />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Router>
+      </DarkModeProvider>
     </>
   );
 }

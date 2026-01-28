@@ -54,8 +54,8 @@ export default function Services() {
       <div className="max-w-6xl mx-auto px-6 py-12">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4">Our Services</h1>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <h1 className="text-4xl font-bold mb-4 dark:text-white">Our Services</h1>
+          <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Everything you need to manage your notes efficiently, securely, and
             beautifully — all in one place.
           </p>
@@ -64,13 +64,13 @@ export default function Services() {
         {/* Services Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, index) => (
-            <Card key={index} className="hover:shadow-lg transition">
+            <Card key={index} className="hover:shadow-lg transition dark:bg-gray-800 dark:border-gray-700">
               <div className="flex flex-col items-start gap-4">
-                <div className="bg-black text-white p-3 rounded-xl">
+                <div className="bg-black dark:bg-gray-700 text-white p-3 rounded-xl">
                   <service.icon className="h-6 w-6" />
                 </div>
-                <h3 className="text-xl font-semibold">{service.title}</h3>
-                <p className="text-gray-600 text-sm">{service.description}</p>
+                <h3 className="text-xl font-semibold dark:text-white">{service.title}</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">{service.description}</p>
               </div>
             </Card>
           ))}
@@ -78,15 +78,15 @@ export default function Services() {
 
         {/* Call to Action */}
         <div className="mt-16 text-center">
-          <h2 className="text-2xl font-semibold mb-3">
+          <h2 className="text-2xl font-semibold mb-3 dark:text-white">
             Start Organizing Your Ideas Today
           </h2>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
             Join now and experience a smarter way to manage your notes.
           </p>
           <a
             href="/note"
-            className="inline-block bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition"
+            className="inline-block bg-black dark:bg-gray-700 text-white px-6 py-3 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-600 transition"
           >
             Get Started
           </a>

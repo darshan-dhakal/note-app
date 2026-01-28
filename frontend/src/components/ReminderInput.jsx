@@ -58,7 +58,7 @@ export default function ReminderInput({ initialValue = [], onChange }) {
     <div className="space-y-2">
       <label className="flex items-center gap-2">
         <input type="checkbox" checked={enabled} onChange={handleToggle} />
-        <span className="font-medium">Set reminder</span>
+        <span className="font-medium dark:text-white">Set reminder</span>
       </label>
 
       {enabled && (
@@ -67,9 +67,9 @@ export default function ReminderInput({ initialValue = [], onChange }) {
             type="datetime-local"
             value={localValue}
             onChange={handleInput}
-            className="border rounded px-2 py-1"
+            className="border rounded px-2 py-1 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:placeholder-gray-400"
           />
-          {error && <p className="text-sm text-red-600">{error}</p>}
+          {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
         </div>
       )}
     </div>

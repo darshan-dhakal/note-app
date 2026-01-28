@@ -39,12 +39,12 @@ export function Login() {
 
   return (
     <Layouts>
-      <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-        <Card className="w-full max-w-md shadow-lg">
-          <h2 className="text-3xl font-bold text-center mb-6">Login</h2>
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 px-4 transition-colors duration-300">
+        <Card className="w-full max-w-md shadow-lg bg-white dark:bg-gray-800 dark:border-gray-700">
+          <h2 className="text-3xl font-bold text-center mb-6 dark:text-white">Login</h2>
 
           {error && (
-            <p className="text-red-600 text-center mb-3 text-sm font-semibold">
+            <p className="text-red-600 dark:text-red-400 text-center mb-3 text-sm font-semibold">
               {error}
             </p>
           )}
@@ -79,17 +79,17 @@ export function Login() {
             </div>
 
             {/* Links */}
-            <div className="flex flex-col items-center text-sm text-gray-600">
+            <div className="flex flex-col items-center text-sm text-gray-600 dark:text-gray-400">
               <div className="flex flex-row items-center gap-1">
                 <span>Don't have an account?</span>
-                <a href="/signup" className="hover:underline text-blue-600">
+                <a href="/signup" className="hover:underline text-blue-600 dark:text-blue-400">
                   Sign up
                 </a>
               </div>
 
               <a
                 href="/forgot-password"
-                className="hover:underline mt-1 text-blue-600"
+                className="hover:underline mt-1 text-blue-600 dark:text-blue-400"
               >
                 Forgot password?
               </a>

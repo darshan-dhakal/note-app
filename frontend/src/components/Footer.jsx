@@ -7,7 +7,7 @@ import {
 
 export function Component() {
   return (
-    <Footer className="" container>
+    <Footer className="bg-white dark:bg-gray-800 border-t dark:border-gray-700 transition-colors duration-300" container>
       <FooterCopyright href="#" by="Darshan Dhakal™" year={2025} />
       <FooterLinkGroup>
         <FooterLink href="/about">About</FooterLink>

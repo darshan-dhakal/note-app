@@ -70,9 +70,9 @@ export default function Signup() {
         </div>
       )}
 
-      <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-        <Card className="w-full max-w-md shadow-lg">
-          <h2 className="text-3xl font-bold text-center mb-6">
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 px-4 transition-colors duration-300">
+        <Card className="w-full max-w-md shadow-lg bg-white dark:bg-gray-800 dark:border-gray-700">
+          <h2 className="text-3xl font-bold text-center mb-6 dark:text-white">
             Create Account
           </h2>
 
@@ -159,9 +159,9 @@ export default function Signup() {
               </div>
             )}
 
-            <p className="text-center text-sm text-gray-600">
+            <p className="text-center text-sm text-gray-600 dark:text-gray-400">
               Already have an account?{" "}
-              <a href="/login" className="text-blue-600 hover:underline">
+              <a href="/login" className="text-blue-600 dark:text-blue-400 hover:underline">
                 Login
               </a>
             </p>

@@ -131,10 +131,10 @@ export function Profile() {
 
   return (
     <Layouts>
-      <div className="min-h-screen bg-gray-100 p-6">
+      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-6 transition-colors duration-300">
         <div className="max-w-5xl mx-auto space-y-10">
           {/* Profile Header */}
-          <div className="bg-white shadow-lg rounded-3xl p-10 flex gap-10 items-center">
+          <div className="bg-white dark:bg-gray-800 shadow-lg rounded-3xl p-10 flex gap-10 items-center">
             {/* Avatar */}
             <div className="relative group">
               {preview ? (
@@ -144,7 +144,7 @@ export function Profile() {
                   className="w-36 h-36 rounded-full object-cover shadow-sm"
                 />
               ) : (
-                <FaUserCircle className="w-36 h-36 text-gray-300" />
+                <FaUserCircle className="w-36 h-36 text-gray-300 dark:text-gray-600" />
               )}
               <button
                 onClick={handleUploadClick}
@@ -156,37 +156,37 @@ export function Profile() {
 
             {/* User Summary */}
             <div className="flex-1">
-              <h1 className="text-4xl font-semibold">{user?.name}</h1>
-              <p className="text-gray-500 mt-1">{user?.email}</p>
+              <h1 className="text-4xl font-semibold dark:text-white">{user?.name}</h1>
+              <p className="text-gray-500 dark:text-gray-400 mt-1">{user?.email}</p>
             </div>
           </div>
 
           {/* User Detail Panel */}
-          <div className="bg-white shadow-md rounded-3xl p-8">
-            <h2 className="text-2xl font-semibold mb-6">Account Details</h2>
+          <div className="bg-white dark:bg-gray-800 shadow-md rounded-3xl p-8">
+            <h2 className="text-2xl font-semibold mb-6 dark:text-white">Account Details</h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="space-y-1">
-                <p className="text-gray-500 text-sm">Full Name</p>
-                <p className="text-lg font-medium">{user?.name}</p>
+                <p className="text-gray-500 dark:text-gray-400 text-sm">Full Name</p>
+                <p className="text-lg font-medium dark:text-white">{user?.name}</p>
               </div>
 
               <div className="space-y-1">
-                <p className="text-gray-500 text-sm">Email</p>
-                <p className="text-lg font-medium">{user?.email}</p>
+                <p className="text-gray-500 dark:text-gray-400 text-sm">Email</p>
+                <p className="text-lg font-medium dark:text-white">{user?.email}</p>
               </div>
 
               {user?.phone && (
                 <div className="space-y-1">
-                  <p className="text-gray-500 text-sm">Phone Number</p>
-                  <p className="text-lg font-medium">{user.phone}</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-sm">Phone Number</p>
+                  <p className="text-lg font-medium dark:text-white">{user.phone}</p>
                 </div>
               )}
 
               {user?.bio && (
                 <div className="space-y-1 col-span-2">
-                  <p className="text-gray-500 text-sm">Bio</p>
-                  <p className="text-lg font-medium">{user.bio}</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-sm">Bio</p>
+                  <p className="text-lg font-medium dark:text-white">{user.bio}</p>
                 </div>
               )}
             </div>
@@ -205,12 +205,12 @@ export function Profile() {
         {/* Image Crop Modal */}
         {showCropper && selectedFile && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
-              <div className="bg-gray-900 text-white p-4 flex justify-between items-center">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
+              <div className="bg-gray-900 dark:bg-gray-950 text-white p-4 flex justify-between items-center">
                 <h3 className="text-lg font-semibold">Crop Avatar</h3>
               </div>
 
-              <div className="relative w-full h-96 bg-gray-100">
+              <div className="relative w-full h-96 bg-gray-100 dark:bg-gray-700">
                 <Cropper
                   image={URL.createObjectURL(selectedFile)}
                   crop={crop}
@@ -226,8 +226,8 @@ export function Profile() {
               </div>
 
               {/* Zoom Slider */}
-              <div className="p-4 bg-gray-50 border-t">
-                <label className="text-sm text-gray-600 block mb-2">Zoom</label>
+              <div className="p-4 bg-gray-50 dark:bg-gray-700 border-t dark:border-gray-600">
+                <label className="text-sm text-gray-600 dark:text-gray-300 block mb-2">Zoom</label>
                 <input
                   type="range"
                   value={zoom}
@@ -235,12 +235,12 @@ export function Profile() {
                   max={3}
                   step={0.1}
                   onChange={(e) => setZoom(e.target.value)}
-                  className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer"
+                  className="w-full h-2 bg-gray-300 dark:bg-gray-600 rounded-lg appearance-none cursor-pointer"
                 />
               </div>
 
               {/* Action Buttons */}
-              <div className="flex gap-3 p-4 bg-gray-50 border-t">
+              <div className="flex gap-3 p-4 bg-gray-50 dark:bg-gray-700 border-t dark:border-gray-600">
                 <button
                   onClick={handleCropCancel}
                   className="flex-1 flex items-center justify-center gap-2 bg-gray-400 hover:bg-gray-500 text-white font-medium py-2 rounded-lg transition"

@@ -39,7 +39,8 @@ export default function ResetPassword() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#f3f3f3",
+        backgroundColor: "var(--bg-primary)",
+        transition: "background-color 0.3s ease",
       }}
     >
       <div
@@ -48,8 +49,9 @@ export default function ResetPassword() {
           width: "100%",
           padding: "20px",
           borderRadius: "10px",
-          background: "white",
-          boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+          background: "var(--card-bg)",
+          boxShadow: "0 2px 10px var(--shadow-color)",
+          color: "var(--text-primary)",
         }}
       >
         <h2 style={{ textAlign: "center" }}>Reset Password</h2>

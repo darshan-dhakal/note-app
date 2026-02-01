@@ -87,7 +87,7 @@ export default function ForgotPassword() {
               </a>
             </p>
 
-            <Button type="submit" color="dark" className="w-full" disabled={loading}>
+            <Button type="submit" color="dark" className="w-full border border-gray-400" disabled={loading}>
               {loading ? "Sending..." : "Send Reset Link"}
             </Button>
           </form>

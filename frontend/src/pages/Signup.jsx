@@ -166,7 +166,7 @@ export default function Signup() {
               </a>
             </p>
 
-            <Button type="submit" color="dark" className="w-full">
+            <Button type="submit" color="dark" className="w-full border border-gray-400">
               Signup
             </Button>
           </form>

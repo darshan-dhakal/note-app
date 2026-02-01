@@ -99,7 +99,7 @@ export function Login() {
             <Button
               type="submit"
               color="dark"
-              className="w-full"
+              className="w-full border border-gray-400"
               disabled={loading}
               isProcessing={loading} // Flowbite built-in loading indicator
             >

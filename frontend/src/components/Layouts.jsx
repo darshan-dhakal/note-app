@@ -4,9 +4,9 @@ import Footer from "./Footer";
 
 export function Layouts({ children }) {
   return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
+    <div className="app-container flex min-h-screen flex-col text-slate-900 transition-colors duration-300 dark:text-slate-100">
       <Navbar />
-      <main className="flex-grow">{children}</main>
+      <main className="grow">{children}</main>
       <Footer />
     </div>
   );

@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { noteSchema } from "../schemas/noteSchema";
 import Layouts from "../components/Layouts";
 import { Label, Textarea, TextInput, Button, Card } from "flowbite-react";
+import { AnimatePresence, motion } from "framer-motion";
 import { HiOutlinePlus, HiOutlinePencil, HiX } from "react-icons/hi";
 import { CreatedNotes } from "../components/CreatedNotes";
 import ReminderInput from "../components/ReminderInput";
@@ -129,30 +130,31 @@ export default function Note() {
 
   return (
     <Layouts>
-      <div className="min-h-screen py-10 px-4 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-        <div className="max-w-5xl mx-auto">
-          {/* Header with Plus Button */}
-          <div className="flex justify-between items-center mb-10">
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">Your Notes</h1>
+      <div className="section-shell py-8 md:py-12">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white md:text-4xl">My Workspace</h1>
+              <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">All your notes and reminder plans in one place.</p>
+            </div>
             <button
               onClick={handleOpenCreateModal}
-              className="flex items-center gap-2 bg-black dark:bg-gray-700 hover:bg-gray-800 dark:hover:bg-gray-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition"
+              className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
             >
               <HiOutlinePlus className="h-6 w-6" />
               New Note
             </button>
           </div>
 
-          {/* Notes Grid */}
           {notes.length === 0 ? (
-            <Card className="p-6 text-center shadow-md bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
-              <p className="text-gray-500 dark:text-gray-400 text-lg">You have no notes yet.</p>
-              <p className="text-gray-400 dark:text-gray-500 mt-2">
+            <Card className="glass-card rounded-2xl border-0 p-8 text-center">
+              <p className="text-lg font-semibold text-slate-800 dark:text-white">No notes yet</p>
+              <p className="mt-2 text-slate-500 dark:text-slate-300">
                 Create your first note by clicking the "New Note" button.
               </p>
             </Card>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+            <div className="grid grid-cols-1 items-start gap-5 md:grid-cols-2 xl:grid-cols-3">
               {notes.map((note) => (
                 <CreatedNotes
                   key={note.id}
@@ -167,103 +169,94 @@ export default function Note() {
           )}
         </div>
 
-        {/* Create/Edit Modal */}
-        {isModalOpen && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <Card className="shadow-2xl rounded-2xl p-8 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-3xl font-bold tracking-tight text-gray-800 dark:text-white">
+        <AnimatePresence>
+          {isModalOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/55 p-4"
+            >
+              <motion.div
+                initial={{ opacity: 0, y: 25, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 20 }}
+                className="w-full max-w-2xl"
+              >
+                <Card className="glass-card max-h-[90vh] overflow-y-auto rounded-2xl border-0 p-7">
+                  <div className="mb-6 flex items-center justify-between">
+                    <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white md:text-3xl">
                   {editNoteId ? "Edit Note" : "Create a New Note"}
-                </h2>
-                <button
-                  onClick={handleCloseModal}
-                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition"
-                >
-                  <HiX className="h-6 w-6 text-gray-600 dark:text-gray-400" />
-                </button>
-              </div>
+                    </h2>
+                    <button
+                      onClick={handleCloseModal}
+                      className="rounded-full p-2 transition hover:bg-slate-100 dark:hover:bg-slate-800"
+                    >
+                      <HiX className="h-6 w-6 text-slate-600 dark:text-slate-300" />
+                    </button>
+                  </div>
 
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                <div className="space-y-2">
-                  <Label htmlFor="title" className="font-medium text-gray-700 dark:text-gray-300">
-                    Title
-                  </Label>
-                  <TextInput
-                    id="title"
-                    placeholder="Enter a clear and descriptive title"
-                    className="text-lg"
-                    {...register("title")}
-                  />
-                  {errors.title && (
-                    <p className="text-red-500 text-sm">
-                      {errors.title.message}
-                    </p>
-                  )}
-                </div>
+                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="title" className="font-medium text-slate-700 dark:text-slate-300">
+                        Title
+                      </Label>
+                      <TextInput
+                        id="title"
+                        placeholder="Enter a clear and descriptive title"
+                        sizing="lg"
+                        {...register("title")}
+                      />
+                      {errors.title && <p className="text-sm text-red-500">{errors.title.message}</p>}
+                    </div>
 
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="content"
-                    className="font-medium text-gray-700 dark:text-gray-300"
-                  >
-                    Content
-                  </Label>
-                  <Textarea
-                    id="content"
-                    rows={5}
-                    placeholder="Write your note here..."
-                    className="text-base"
-                    {...register("content")}
-                  />
-                  {errors.content && (
-                    <p className="text-red-500 text-sm">
-                      {errors.content.message}
-                    </p>
-                  )}
-                </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="content" className="font-medium text-slate-700 dark:text-slate-300">
+                        Content
+                      </Label>
+                      <Textarea
+                        id="content"
+                        rows={6}
+                        placeholder="Write your note here..."
+                        className="text-base"
+                        {...register("content")}
+                      />
+                      {errors.content && <p className="text-sm text-red-500">{errors.content.message}</p>}
+                    </div>
 
-                <Controller
-                  name="reminders"
-                  control={control}
-                  defaultValue={[]}
-                  render={({ field }) => (
-                    <ReminderInput
-                      initialValue={field.value}
-                      onChange={field.onChange}
+                    <Controller
+                      name="reminders"
+                      control={control}
+                      defaultValue={[]}
+                      render={({ field }) => (
+                        <ReminderInput initialValue={field.value} onChange={field.onChange} />
+                      )}
                     />
-                  )}
-                />
 
-                <div className="flex gap-3 justify-end pt-4 border-t">
-                  <Button
-                    color="gray"
-                    type="button"
-                    onClick={handleCloseModal}
-                    className="px-5"
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    type="submit"
-                    className="flex items-center gap-2 px-5"
-                  >
-                    {editNoteId ? (
-                      <>
-                        <HiOutlinePencil className="h-5 w-5" />
-                        Update Note
-                      </>
-                    ) : (
-                      <>
-                        <HiOutlinePlus className="h-5 w-5" />
-                        Create Note
-                      </>
-                    )}
-                  </Button>
-                </div>
-              </form>
-            </Card>
-          </div>
-        )}
+                    <div className="flex flex-col-reverse justify-end gap-3 border-t border-slate-200 pt-5 dark:border-slate-700 sm:flex-row">
+                      <Button color="light" type="button" onClick={handleCloseModal}>
+                        Cancel
+                      </Button>
+                      <Button type="submit" color="blue" className="flex items-center gap-2">
+                        {editNoteId ? (
+                          <>
+                            <HiOutlinePencil className="h-5 w-5" />
+                            Update Note
+                          </>
+                        ) : (
+                          <>
+                            <HiOutlinePlus className="h-5 w-5" />
+                            Create Note
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  </form>
+                </Card>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </Layouts>
   );

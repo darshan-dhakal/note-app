@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import Layouts from "../components/Layouts";
 import { Button, Label, TextInput, Card } from "flowbite-react";
+import { Link } from "react-router-dom";
 
 export function Login() {
   const [email, setEmail] = useState("");
@@ -39,18 +40,18 @@ export function Login() {
 
   return (
     <Layouts>
-      <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 px-4 transition-colors duration-300">
-        <Card className="w-full max-w-md shadow-lg bg-white dark:bg-gray-800 dark:border-gray-700">
-          <h2 className="text-3xl font-bold text-center mb-6 dark:text-white">Login</h2>
+      <div className="section-shell flex min-h-[80vh] items-center justify-center py-10">
+        <Card className="glass-card w-full max-w-md rounded-2xl border-0 p-3">
+          <h2 className="mb-2 text-center text-3xl font-bold text-slate-900 dark:text-white">Welcome back</h2>
+          <p className="mb-6 text-center text-sm text-slate-500 dark:text-slate-300">Sign in to continue to your notes workspace.</p>
 
           {error && (
-            <p className="text-red-600 dark:text-red-400 text-center mb-3 text-sm font-semibold">
+            <p className="mb-3 text-center text-sm font-semibold text-red-600 dark:text-red-400">
               {error}
             </p>
           )}
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            {/* Email */}
             <div>
               <Label htmlFor="email" value="Email" className="mb-1" />
               <TextInput
@@ -60,11 +61,10 @@ export function Login() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                disabled={loading} // OPTIONAL but recommended
+                disabled={loading}
               />
             </div>
 
-            {/* Password */}
             <div>
               <Label htmlFor="password" value="Password" className="mb-1" />
               <TextInput
@@ -74,34 +74,29 @@ export function Login() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                disabled={loading} // OPTIONAL but recommended
+                disabled={loading}
               />
             </div>
 
-            {/* Links */}
-            <div className="flex flex-col items-center text-sm text-gray-600 dark:text-gray-400">
+            <div className="flex flex-col items-center text-sm text-slate-600 dark:text-slate-300">
               <div className="flex flex-row items-center gap-1">
                 <span>Don't have an account?</span>
-                <a href="/signup" className="hover:underline text-blue-600 dark:text-blue-400">
+                <Link to="/signup" className="text-blue-600 hover:underline dark:text-blue-400">
                   Sign up
-                </a>
+                </Link>
               </div>
 
-              <a
-                href="/forgot-password"
-                className="hover:underline mt-1 text-blue-600 dark:text-blue-400"
-              >
+              <Link to="/forgot-password" className="mt-1 text-blue-600 hover:underline dark:text-blue-400">
                 Forgot password?
-              </a>
+              </Link>
             </div>
 
-            {/* Submit */}
             <Button
               type="submit"
-              color="dark"
-              className="w-full border border-gray-400"
+              color="blue"
+              className="w-full"
               disabled={loading}
-              isProcessing={loading} // Flowbite built-in loading indicator
+              isProcessing={loading}
             >
               {loading ? "Logging in..." : "Login"}
             </Button>

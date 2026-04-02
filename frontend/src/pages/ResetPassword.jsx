@@ -1,117 +1,98 @@
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import { Button, Card, Label, TextInput } from "flowbite-react";
 
 export default function ResetPassword() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
   const { token } = useParams();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+
     if (password !== confirmPassword) {
-      return setError("Passwords do not match");
+      setError("Passwords do not match");
+      return;
     }
+
     try {
+      setLoading(true);
       const res = await axios.post(
-        `${
-          import.meta.env.VITE_API_BASE_URL
-        }/api/users/reset-password/${token}`,
-        { password: password }
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/reset-password/${token}`,
+        { password }
       );
-      setSuccess(res.data.message);
+
+      setSuccess(res.data.message || "Password reset successfully");
       setTimeout(() => {
         navigate("/login");
-      }, 2000);
+      }, 1800);
     } catch (err) {
-      setError(err.response?.data?.error || "failed to reset password");
+      setError(err.response?.data?.error || "Failed to reset password");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div
-      style={{
-        height: "100vh",
-        width: "100vw",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "var(--bg-primary)",
-        transition: "background-color 0.3s ease",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: "400px",
-          width: "100%",
-          padding: "20px",
-          borderRadius: "10px",
-          background: "var(--card-bg)",
-          boxShadow: "0 2px 10px var(--shadow-color)",
-          color: "var(--text-primary)",
-        }}
-      >
-        <h2 style={{ textAlign: "center" }}>Reset Password</h2>
+    <div className="app-container flex min-h-screen items-center justify-center p-4">
+      <Card className="glass-card w-full max-w-md rounded-2xl border-0 p-3">
+        <h2 className="mb-2 text-center text-3xl font-bold text-slate-900 dark:text-white">
+          Reset Password
+        </h2>
+        <p className="mb-6 text-center text-sm text-slate-500 dark:text-slate-300">
+          Enter your new password to secure your account.
+        </p>
 
-        <form onSubmit={handleSubmit}>
-          <label style={{ marginTop: "10px" }}>New Password</label>
-          <div style={{ display: "flex" }}>
-            <input
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <Label htmlFor="password" value="New Password" className="mb-1" />
+            <TextInput
+              id="password"
               type="password"
               placeholder="Enter your new password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginTop: "5px",
-                marginBottom: "15px",
-              }}
+              disabled={loading}
             />
           </div>
 
-          <label style={{ marginTop: "10px" }}>Confirm New Password</label>
-          <div style={{ display: "flex" }}>
-            <input
+          <div>
+            <Label htmlFor="confirmPassword" value="Confirm Password" className="mb-1" />
+            <TextInput
+              id="confirmPassword"
               type="password"
               placeholder="Confirm your new password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginTop: "5px",
-                marginBottom: "15px",
-              }}
+              disabled={loading}
             />
           </div>
 
-          <button
-            type="submit"
-            style={{
-              width: "100%",
-              padding: "10px",
-              backgroundColor: "black",
-              color: "white",
-              borderRadius: "5px",
-              border: "none",
-            }}
-          >
-            Reset Password
-          </button>
+          {error && <p className="text-sm font-medium text-red-600">{error}</p>}
+          {success && <p className="text-sm font-medium text-green-600">{success}</p>}
 
-          {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
-          {success && (
-            <p style={{ color: "green", marginTop: "10px" }}>{success}</p>
-          )}
+          <Button type="submit" color="blue" className="w-full" isProcessing={loading} disabled={loading}>
+            {loading ? "Resetting..." : "Reset Password"}
+          </Button>
+
+          <p className="text-center text-sm text-slate-600 dark:text-slate-300">
+            Back to{" "}
+            <Link to="/login" className="text-blue-600 hover:underline dark:text-blue-400">
+              Login
+            </Link>
+          </p>
         </form>
-      </div>
+      </Card>
     </div>
   );
 }
+
 export { ResetPassword };

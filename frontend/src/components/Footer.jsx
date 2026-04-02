@@ -1,21 +1,22 @@
-import {
-  Footer,
-  FooterCopyright,
-  FooterLink,
-  FooterLinkGroup,
-} from "flowbite-react";
+import { Link } from "react-router-dom";
 
-export function Component() {
+export default function Footer() {
   return (
-    <Footer className="bg-white dark:bg-gray-800 border-t dark:border-gray-700 transition-colors duration-300" container>
-      <FooterCopyright href="#" by="Darshan Dhakal™" year={2025} />
-      <FooterLinkGroup>
-        <FooterLink href="/about">About</FooterLink>
-        <FooterLink href="/privacy-policy">Privacy Policy</FooterLink>
-        <FooterLink href="/licensing">Licensing</FooterLink>
-        <FooterLink href="/contact">Contact</FooterLink>
-      </FooterLinkGroup>
-    </Footer>
+    <footer className="mt-10 border-t border-slate-200/80 bg-white/90 dark:border-slate-800 dark:bg-slate-950/80">
+      <div className="section-shell flex flex-col items-start justify-between gap-3 py-5 text-sm text-slate-600 dark:text-slate-400 md:flex-row md:items-center">
+        <p>© 2026 Notify. Crafted for focused note-taking.</p>
+        <div className="flex items-center gap-4">
+          <Link to="/about" className="hover:text-slate-900 dark:hover:text-white">
+            About
+          </Link>
+          <Link to="/services" className="hover:text-slate-900 dark:hover:text-white">
+            Services
+          </Link>
+          <Link to="/contact" className="hover:text-slate-900 dark:hover:text-white">
+            Contact
+          </Link>
+        </div>
+      </div>
+    </footer>
   );
 }
-export default Component;

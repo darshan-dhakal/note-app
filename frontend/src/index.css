@@ -1,32 +1,40 @@
-/* index.css */
-@import "tailwindcss/preflight";
-@tailwind utilities;
-@tailwind utilities;
-
-/* Apply a nicer default font and smooth rendering */
 @import "tailwindcss";
 @plugin "flowbite-react/plugin/tailwindcss";
 @source "../.flowbite-react/class-list.json";
+@custom-variant dark (&:where(.dark, .dark *));
 
-/* Dark Mode Styles */
 :root {
-  --bg-primary: #ffffff;
-  --bg-secondary: #f3f4f6;
-  --text-primary: #000000;
-  --text-secondary: #6b7280;
-  --border-color: #e5e7eb;
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --border-color: #e2e8f0;
   --card-bg: #ffffff;
-  --shadow-color: rgba(0, 0, 0, 0.1);
+  --shadow-color: rgba(15, 23, 42, 0.08);
+  --brand: #2563eb;
+  --brand-soft: #dbeafe;
 }
 
 .dark {
-  --bg-primary: #111827;
-  --bg-secondary: #1f2937;
-  --text-primary: #ffffff;
-  --text-secondary: #d1d5db;
-  --border-color: #374151;
-  --card-bg: #1f2937;
-  --shadow-color: rgba(0, 0, 0, 0.3);
+  --bg-primary: #020617;
+  --bg-secondary: #0f172a;
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --border-color: #1e293b;
+  --card-bg: #0f172a;
+  --shadow-color: rgba(2, 6, 23, 0.6);
+  --brand: #3b82f6;
+  --brand-soft: #1e3a8a;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+html {
+  color-scheme: light;
 }
 
 html.dark {
@@ -36,11 +44,45 @@ html.dark {
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-/* Code elements font */
-/* code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-} */
+.app-container {
+  background:
+    radial-gradient(circle at 10% -20%, rgba(37, 99, 235, 0.12), transparent 40%),
+    radial-gradient(circle at 90% 0%, rgba(56, 189, 248, 0.12), transparent 35%),
+    var(--bg-primary);
+}
+
+.dark .app-container {
+  background:
+    radial-gradient(circle at 15% -15%, rgba(37, 99, 235, 0.2), transparent 35%),
+    radial-gradient(circle at 85% 0%, rgba(14, 165, 233, 0.14), transparent 30%),
+    var(--bg-primary);
+}
+
+.glass-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 30px var(--shadow-color);
+  backdrop-filter: blur(10px);
+}
+
+@supports (background: color-mix(in srgb, white 90%, transparent)) {
+  .glass-card {
+    background: color-mix(in srgb, var(--card-bg) 90%, transparent);
+  }
+}
+
+.section-shell {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .section-shell {
+    padding: 1.5rem;
+  }
+}

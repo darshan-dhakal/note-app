@@ -55,19 +55,25 @@ export default function ReminderInput({ initialValue = [], onChange }) {
   };
 
   return (
-    <div className="space-y-2">
+    <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/50">
       <label className="flex items-center gap-2">
-        <input type="checkbox" checked={enabled} onChange={handleToggle} />
-        <span className="font-medium dark:text-white">Set reminder</span>
+        <input
+          type="checkbox"
+          checked={enabled}
+          onChange={handleToggle}
+          className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+        />
+        <span className="font-medium text-slate-800 dark:text-slate-100">Enable reminder</span>
       </label>
 
       {enabled && (
-        <div className="space-y-1">
+        <div className="mt-3 space-y-1">
+          <p className="text-xs text-slate-500 dark:text-slate-300">Pick date & time for notification</p>
           <input
             type="datetime-local"
             value={localValue}
             onChange={handleInput}
-            className="border rounded px-2 py-1 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:placeholder-gray-400"
+            className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800 dark:text-white"
           />
           {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
         </div>

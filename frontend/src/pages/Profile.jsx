@@ -131,68 +131,64 @@ export function Profile() {
 
   return (
     <Layouts>
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-6 transition-colors duration-300">
-        <div className="max-w-5xl mx-auto space-y-10">
-          {/* Profile Header */}
-          <div className="bg-white dark:bg-gray-800 shadow-lg rounded-3xl p-10 flex gap-10 items-center">
-            {/* Avatar */}
+      <div className="section-shell py-10">
+        <div className="mx-auto max-w-5xl space-y-8">
+          <div className="glass-card flex flex-col items-start gap-8 rounded-3xl p-8 sm:flex-row sm:items-center">
             <div className="relative group">
               {preview ? (
                 <img
                   src={preview}
                   alt="Profile"
-                  className="w-36 h-36 rounded-full object-cover shadow-sm"
+                  className="h-32 w-32 rounded-full object-cover shadow-md sm:h-36 sm:w-36"
                 />
               ) : (
-                <FaUserCircle className="w-36 h-36 text-gray-300 dark:text-gray-600" />
+                <FaUserCircle className="h-32 w-32 text-slate-300 dark:text-slate-600 sm:h-36 sm:w-36" />
               )}
               <button
                 onClick={handleUploadClick}
-                className="absolute bottom-0 right-0 bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full shadow-lg transition"
+                className="absolute bottom-0 right-0 rounded-full bg-blue-600 p-2 text-white shadow-lg transition hover:bg-blue-700"
               >
                 <FaCamera className="text-sm" />
               </button>
             </div>
 
-            {/* User Summary */}
             <div className="flex-1">
-              <h1 className="text-4xl font-semibold dark:text-white">{user?.name}</h1>
-              <p className="text-gray-500 dark:text-gray-400 mt-1">{user?.email}</p>
+              <h1 className="text-3xl font-semibold dark:text-white sm:text-4xl">{user?.name}</h1>
+              <p className="mt-1 text-slate-500 dark:text-slate-300">{user?.email}</p>
+              <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">Keep your profile photo up to date so your workspace stays personal and easy to identify.</p>
             </div>
           </div>
 
-          {/* User Detail Panel */}
-          <div className="bg-white dark:bg-gray-800 shadow-md rounded-3xl p-8">
-            <h2 className="text-2xl font-semibold mb-6 dark:text-white">Account Details</h2>
+          <div className="glass-card rounded-3xl p-8">
+            <h2 className="mb-6 text-2xl font-semibold dark:text-white">Account Details</h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="space-y-1">
-                <p className="text-gray-500 dark:text-gray-400 text-sm">Full Name</p>
-                <p className="text-lg font-medium dark:text-white">{user?.name}</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Full Name</p>
+                <p className="text-lg font-medium dark:text-white">{user?.name || "-"}</p>
               </div>
 
               <div className="space-y-1">
-                <p className="text-gray-500 dark:text-gray-400 text-sm">Email</p>
-                <p className="text-lg font-medium dark:text-white">{user?.email}</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Email</p>
+                <p className="text-lg font-medium dark:text-white">{user?.email || "-"}</p>
               </div>
 
               {user?.phone && (
                 <div className="space-y-1">
-                  <p className="text-gray-500 dark:text-gray-400 text-sm">Phone Number</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">Phone Number</p>
                   <p className="text-lg font-medium dark:text-white">{user.phone}</p>
                 </div>
               )}
 
               {user?.bio && (
                 <div className="space-y-1 col-span-2">
-                  <p className="text-gray-500 dark:text-gray-400 text-sm">Bio</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">Bio</p>
                   <p className="text-lg font-medium dark:text-white">{user.bio}</p>
                 </div>
               )}
             </div>
           </div>
 
-          {/* Hidden File Input */}
           <input
             ref={fileInputRef}
             type="file"
@@ -202,15 +198,14 @@ export function Profile() {
           />
         </div>
 
-        {/* Image Crop Modal */}
         {showCropper && selectedFile && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
-              <div className="bg-gray-900 dark:bg-gray-950 text-white p-4 flex justify-between items-center">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+            <div className="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl dark:bg-slate-800">
+              <div className="flex items-center justify-between bg-slate-900 p-4 text-white dark:bg-slate-950">
                 <h3 className="text-lg font-semibold">Crop Avatar</h3>
               </div>
 
-              <div className="relative w-full h-96 bg-gray-100 dark:bg-gray-700">
+              <div className="relative h-96 w-full bg-slate-100 dark:bg-slate-700">
                 <Cropper
                   image={URL.createObjectURL(selectedFile)}
                   crop={crop}
@@ -225,9 +220,8 @@ export function Profile() {
                 />
               </div>
 
-              {/* Zoom Slider */}
-              <div className="p-4 bg-gray-50 dark:bg-gray-700 border-t dark:border-gray-600">
-                <label className="text-sm text-gray-600 dark:text-gray-300 block mb-2">Zoom</label>
+              <div className="border-t bg-slate-50 p-4 dark:border-slate-600 dark:bg-slate-700">
+                <label className="mb-2 block text-sm text-slate-600 dark:text-slate-300">Zoom</label>
                 <input
                   type="range"
                   value={zoom}
@@ -235,22 +229,21 @@ export function Profile() {
                   max={3}
                   step={0.1}
                   onChange={(e) => setZoom(e.target.value)}
-                  className="w-full h-2 bg-gray-300 dark:bg-gray-600 rounded-lg appearance-none cursor-pointer"
+                  className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-slate-300 dark:bg-slate-600"
                 />
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex gap-3 p-4 bg-gray-50 dark:bg-gray-700 border-t dark:border-gray-600">
+              <div className="flex gap-3 border-t bg-slate-50 p-4 dark:border-slate-600 dark:bg-slate-700">
                 <button
                   onClick={handleCropCancel}
-                  className="flex-1 flex items-center justify-center gap-2 bg-gray-400 hover:bg-gray-500 text-white font-medium py-2 rounded-lg transition"
+                  className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-slate-500 py-2 font-medium text-white transition hover:bg-slate-600"
                 >
                   <FaTimes className="text-lg" />
                   Cancel
                 </button>
                 <button
                   onClick={createCroppedImage}
-                  className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition"
+                  className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-blue-600 py-2 font-medium text-white transition hover:bg-blue-700"
                 >
                   <FaCheck className="text-lg" />
                   Crop
@@ -260,9 +253,8 @@ export function Profile() {
           </div>
         )}
 
-        {/* Save Button - Only Show After Cropping */}
         {selectedFile && !showCropper && (
-          <div className="fixed bottom-6 right-6 flex gap-3">
+          <div className="fixed bottom-6 right-6 z-40 flex gap-3">
             <button
               onClick={() => {
                 setSelectedFile(null);
@@ -271,14 +263,14 @@ export function Profile() {
                   fileInputRef.current.value = "";
                 }
               }}
-              className="flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white font-medium px-4 py-2 rounded-lg shadow-lg transition"
+              className="flex items-center gap-2 rounded-lg bg-slate-500 px-4 py-2 font-medium text-white shadow-lg transition hover:bg-slate-600"
             >
               <FaTimes /> Cancel
             </button>
             <button
               onClick={handleSavePhoto}
               disabled={loading}
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg shadow-lg transition disabled:opacity-60"
+              className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 font-medium text-white shadow-lg transition hover:bg-blue-700 disabled:opacity-60"
             >
               <FaCheck /> {loading ? "Uploading..." : "Save Photo"}
             </button>

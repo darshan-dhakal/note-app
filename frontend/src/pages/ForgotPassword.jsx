@@ -3,6 +3,7 @@ import axios from "axios";
 import Layouts from "../components/Layouts";
 import { Label, TextInput, Card, Button, Toast } from "flowbite-react";
 import { HiMail, HiCheck } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -35,14 +36,12 @@ export default function ForgotPassword() {
 
   return (
     <Layouts>
-      {/* Loading Spinner */}
       {loading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20">
-          <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-gray-800"></div>
+          <div className="h-12 w-12 animate-spin rounded-full border-4 border-slate-300 border-t-blue-600"></div>
         </div>
       )}
 
-      {/* Success Toast */}
       {showToast && (
         <div className="fixed top-5 right-5 z-50">
           <Toast>
@@ -56,11 +55,12 @@ export default function ForgotPassword() {
         </div>
       )}
 
-      <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 px-4 transition-colors duration-300">
-        <Card className="w-full max-w-md shadow-lg bg-white dark:bg-gray-800 dark:border-gray-700">
-          <h2 className="text-3xl font-bold text-center mb-6 dark:text-white">
+      <div className="section-shell flex min-h-[80vh] items-center justify-center py-10">
+        <Card className="glass-card w-full max-w-md rounded-2xl border-0 p-3">
+          <h2 className="mb-2 text-center text-3xl font-bold dark:text-white">
             Forgot Password
           </h2>
+          <p className="mb-6 text-center text-sm text-slate-500 dark:text-slate-300">Enter your account email to receive a reset link.</p>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div>
@@ -80,14 +80,14 @@ export default function ForgotPassword() {
               )}
             </div>
 
-            <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-center text-sm text-slate-600 dark:text-slate-300">
               Remember your password?{" "}
-              <a href="/login" className="text-blue-600 dark:text-blue-400 hover:underline">
+              <Link to="/login" className="text-blue-600 dark:text-blue-400 hover:underline">
                 Login
-              </a>
+              </Link>
             </p>
 
-            <Button type="submit" color="dark" className="w-full border border-gray-400" disabled={loading}>
+            <Button type="submit" color="blue" className="w-full" disabled={loading}>
               {loading ? "Sending..." : "Send Reset Link"}
             </Button>
           </form>
